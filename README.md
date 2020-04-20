@@ -1,6 +1,6 @@
 # debris-estimation-call-for-code
 
-Feel free to add to this ReadMe as you find interesting resources.
+Feel free to add to this README as you find interesting resources.
 
 ## Data
 
