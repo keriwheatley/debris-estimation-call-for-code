@@ -7,38 +7,31 @@ Feel free to add to this README as you find interesting resources.
 ### 1. Hurricane Dorian
 
 	Original source: https://storms.ngs.noaa.gov/storms/dorian/index.html
-	Box:
 
 ### 2. Hurricane Irma
 
 	Original source: https://storms.ngs.noaa.gov/storms/irma/index.html
-	Box:
 
 ### 3. Hurricane Matthew
 	
 	Original source: https://geodesy.noaa.gov/storm_archive/storms/matthew/index.html
-	Box:
-
 
 ### 4. Hurricane Maria
 
 	Original source: https://storms.ngs.noaa.gov/storms/maria/index.html
-	Box:
 
 ### 5. Hurricane Michael
 	
 	Original source: https://storms.ngs.noaa.gov/storms/michael/index.html
-	Box:
+	Google Drive access: https://drive.google.com/drive/folders/1hTamQn1sb1AtWa6yNrkiKDkyFUnI3uvJ?usp=sharing
 
 ### 6. Hurricane Nate
 	
 	Original source: https://storms.ngs.noaa.gov/storms/nate/index.html
-	Box:
-
 
 ### 7. Hurricane Sandy
 	Original source: https://geodesy.noaa.gov/storm_archive/storms/sandy/index.html
-	Box:
+	Google Drive access: https://drive.google.com/drive/folders/16-yCf_cgl7ifxqGugaoAwCqsHbf3jbge?usp=sharing
 
 ## Resources
 
