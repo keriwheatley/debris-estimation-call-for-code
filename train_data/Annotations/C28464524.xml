@@ -1,0 +1,35 @@
+<annotation>
+  <folder></folder>
+  <filename>C28464524.jpg</filename>
+  <source>
+    <database>Unknown</database>
+    <annotation>Unknown</annotation>
+    <image>Unknown</image>
+  </source>
+  <size>
+    <width>10328</width>
+    <height>7760</height>
+    <depth>3</depth>
+  </size>
+  <segmented>0</segmented>
+  <object>
+    <name>lightly-damaged-small-structure</name>
+    <occluded>0</occluded>
+    <bndbox>
+      <xmin>3999.0</xmin>
+      <ymin>2444.0</ymin>
+      <xmax>9309.0</xmax>
+      <ymax>4244.0</ymax>
+    </bndbox>
+  </object>
+  <object>
+    <name>moderately-damaged-small-structure</name>
+    <occluded>0</occluded>
+    <bndbox>
+      <xmin>1254.4794921875</xmin>
+      <ymin>3006.15234375</ymin>
+      <xmax>3841.146240234375</xmax>
+      <ymax>7623.5791015625</ymax>
+    </bndbox>
+  </object>
+</annotation>

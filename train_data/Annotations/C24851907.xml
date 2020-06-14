@@ -1,0 +1,25 @@
+<annotation>
+  <folder></folder>
+  <filename>C24851907.jpg</filename>
+  <source>
+    <database>Unknown</database>
+    <annotation>Unknown</annotation>
+    <image>Unknown</image>
+  </source>
+  <size>
+    <width>10328</width>
+    <height>7760</height>
+    <depth>3</depth>
+  </size>
+  <segmented>0</segmented>
+  <object>
+    <name>no-damage-medium-building</name>
+    <occluded>0</occluded>
+    <bndbox>
+      <xmin>0.0</xmin>
+      <ymin>3763.52734375</ymin>
+      <xmax>167.88182067871094</xmax>
+      <ymax>3927.885467529297</ymax>
+    </bndbox>
+  </object>
+</annotation>

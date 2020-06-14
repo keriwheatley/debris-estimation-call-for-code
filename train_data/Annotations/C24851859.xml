@@ -1,0 +1,35 @@
+<annotation>
+  <folder></folder>
+  <filename>C24851859.jpg</filename>
+  <source>
+    <database>Unknown</database>
+    <annotation>Unknown</annotation>
+    <image>Unknown</image>
+  </source>
+  <size>
+    <width>10328</width>
+    <height>7760</height>
+    <depth>3</depth>
+  </size>
+  <segmented>0</segmented>
+  <object>
+    <name>no-damage-small-structure</name>
+    <occluded>0</occluded>
+    <bndbox>
+      <xmin>394.0810546875</xmin>
+      <ymin>2731.1015625</ymin>
+      <xmax>444.89068603515625</xmax>
+      <ymax>2775.2838554382324</ymax>
+    </bndbox>
+  </object>
+  <object>
+    <name>no-damage-small-structure</name>
+    <occluded>0</occluded>
+    <bndbox>
+      <xmin>564.18359375</xmin>
+      <ymin>3045.533203125</ymin>
+      <xmax>607.6295127868652</xmax>
+      <ymax>3105.1792945861816</ymax>
+    </bndbox>
+  </object>
+</annotation>
