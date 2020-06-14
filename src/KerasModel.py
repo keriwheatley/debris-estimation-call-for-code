@@ -1,5 +1,6 @@
 # detect damages in images with mask rcnn model
 # for more information checkout https://machinelearningmastery.com/how-to-train-an-object-detection-model-with-keras/
+import os
 from os import listdir
 from xml.etree import ElementTree
 from numpy import zeros
@@ -11,35 +12,33 @@ from mrcnn.config import Config
 from mrcnn.model import MaskRCNN
 from mrcnn.model import mold_image
 from mrcnn.utils import Dataset
-import os
+from numba import jit, cuda
 
 # class that defines and loads the hurricane dataset
 class HurricaneDataset(Dataset):
 	# load the dataset definitions
+	#@jit(target ="cuda")
 	def load_dataset(self, dataset_dir, is_train=True):
 		# define classes
-		self.add_class("dataset", 1, "train_data")
-		# self.add_class("dataset", 1, "no-damage-small-structure")
-		# self.add_class("dataset", 2, "lightly-damaged-small-structure")
-		# self.add_class("dataset", 3, "moderately-damaged-small-structure")
-		# self.add_class("dataset", 4, "heavily-damaged-small-structure")
-		# self.add_class("dataset", 5, "lightly-damaged-medium-building")
-		# self.add_class("dataset", 6, "moderately-damaged-medium-building")
-		# self.add_class("dataset", 7, "heavily-damaged-medium-building")
-		# self.add_class("dataset", 8, "no-damage-large-building")
-		# self.add_class("dataset", 9, "lightly-damaged-large-building")
-		# self.add_class("dataset", 10, "moderately-damaged-large-building")
-		# self.add_class("dataset", 11, "heavily-damaged-large-building")
-		# self.add_class("dataset", 12, "residential-building")
-		# self.add_class("dataset", 13, "commercial-building")
+		self.add_class("dataset", 1, "no-damage-small-structure")
+		self.add_class("dataset", 2, "lightly-damaged-small-structure")
+		self.add_class("dataset", 3, "moderately-damaged-small-structure")
+		self.add_class("dataset", 4, "heavily-damaged-small-structure")
+		self.add_class("dataset", 5, "lightly-damaged-medium-building")
+		self.add_class("dataset", 6, "moderately-damaged-medium-building")
+		self.add_class("dataset", 7, "heavily-damaged-medium-building")
+		self.add_class("dataset", 8, "no-damage-large-building")
+		self.add_class("dataset", 9, "lightly-damaged-large-building")
+		self.add_class("dataset", 10, "moderately-damaged-large-building")
+		self.add_class("dataset", 11, "heavily-damaged-large-building")
+		self.add_class("dataset", 12, "residential-building")
+		self.add_class("dataset", 13, "commercial-building")
 		# define data locations
 		images_dir = dataset_dir + '/Images/'
 		annotations_dir = dataset_dir + '/Annotations/'
 		image_count = 0
 		#helps us get the number of images
 		file_count = sum(len(files) for _, _, files in os.walk(images_dir))
-		#file_count = self.count_files(images_dir)
-		#print(file_count)
 
 		for filename in listdir(images_dir):
 			# extract image id
@@ -57,6 +56,7 @@ class HurricaneDataset(Dataset):
 			self.add_image('dataset', image_id=image_id, path=img_path, annotation=ann_path)
 
 	# load all bounding boxes for an image
+	#@jit(target ="cuda")
 	def extract_boxes(self, filename):
 		# load and parse the file
 		root = ElementTree.parse(filename)
@@ -75,6 +75,7 @@ class HurricaneDataset(Dataset):
 		return boxes, width, height
 
 	# load the masks for an image
+	#@jit(target ="cuda")
 	def load_mask(self, image_id):
 		# get details of image
 		info = self.image_info[image_id]
@@ -91,20 +92,32 @@ class HurricaneDataset(Dataset):
 			row_s, row_e = box[1], box[3]
 			col_s, col_e = box[0], box[2]
 			masks[row_s:row_e, col_s:col_e, i] = 1
-			class_ids.append(self.class_names.index('train_data'))
-			# class_ids.append(self.class_names.index('no-damage-small-structure'))
-			# class_ids.append(self.class_names.index('lightly-damaged-small-structure'))
-			# class_ids.append(self.class_names.index('moderately-damaged-small-structure'))
-			# class_ids.append(self.class_names.index('heavily-damaged-small-structure'))
-			# class_ids.append(self.class_names.index('lightly-damaged-medium-building'))
-			# class_ids.append(self.class_names.index('moderately-damaged-medium-building'))
-			# class_ids.append(self.class_names.index('heavily-damaged-medium-building'))
-			# class_ids.append(self.class_names.index('no-damage-large-building'))
-			# class_ids.append(self.class_names.index('lightly-damaged-large-building'))
-			# class_ids.append(self.class_names.index('moderately-damaged-large-building'))
-			# class_ids.append(self.class_names.index('heavily-damaged-large-building'))
-			# class_ids.append(self.class_names.index('residential-building'))
-			# class_ids.append(self.class_names.index('commercial-building'))
+			if self.class_names.index('no-damage-small-structure'):
+				class_ids.append(self.class_names.index('no-damage-small-structure'))
+			elif self.class_names.index('lightly-damaged-small-structure'):
+				class_ids.append(self.class_names.index('lightly-damaged-small-structure'))
+			elif self.class_names.index('moderately-damaged-small-structure'):
+				class_ids.append(self.class_names.index('moderately-damaged-small-structure'))
+			elif self.class_names.index('heavily-damaged-small-structure'):
+				class_ids.append(self.class_names.index('heavily-damaged-small-structure'))
+			elif self.class_names.index('lightly-damaged-medium-building'):
+				class_ids.append(self.class_names.index('lightly-damaged-medium-building'))
+			elif self.class_names.index('moderately-damaged-medium-building'):
+				class_ids.append(self.class_names.index('moderately-damaged-medium-building'))
+			elif self.class_names.index('heavily-damaged-medium-building'):
+				class_ids.append(self.class_names.index('heavily-damaged-medium-building'))
+			elif self.class_names.index('no-damage-large-building'):
+				class_ids.append(self.class_names.index('no-damage-large-building'))
+			elif self.class_names.index('lightly-damaged-large-building'):
+				class_ids.append(self.class_names.index('lightly-damaged-large-building'))
+			elif self.class_names.index('moderately-damaged-large-building'):
+				class_ids.append(self.class_names.index('moderately-damaged-large-building'))
+			elif self.class_names.index('heavily-damaged-large-building'):
+				class_ids.append(self.class_names.index('heavily-damaged-large-building'))
+			elif self.class_names.index('residential-building'):
+				class_ids.append(self.class_names.index('residential-building'))
+			elif self.class_names.index('commercial-building'):
+				class_ids.append(self.class_names.index('commercial-building'))
 		return masks, asarray(class_ids, dtype='int32')
 
 	# load an image reference
@@ -113,13 +126,34 @@ class HurricaneDataset(Dataset):
 		return info['path']
 
 # define a configuration for the model
-class ModelConfig(Config):
+class HurricaneConfig(Config):
 	# define the name of the configuration
 	NAME = "debris_model_cfg"
 	# number of classes (background + structures)
 	NUM_CLASSES = 1 + 13
 	# number of training steps per epoch
-	STEPS_PER_EPOCH = 131
+	STEPS_PER_EPOCH = 79
+
+# load the train dataset
+train_set = HurricaneDataset()
+train_set.load_dataset('train_data', is_train=True)
+train_set.prepare()
+print('Train: %d' % len(train_set.image_ids))
+# load the test dataset
+test_set = HurricaneDataset()
+test_set.load_dataset('train_data', is_train=False)
+test_set.prepare()
+print('Test: %d' % len(test_set.image_ids))
+
+# prepare config
+config = HurricaneConfig()
+config.display()
+# define the model
+model = MaskRCNN(mode='training', model_dir='./', config=config)
+# load weights (mscoco) and exclude the output layers
+model.load_weights('mask_rcnn_coco.h5', by_name=True, exclude=["mrcnn_class_logits", "mrcnn_bbox_fc",  "mrcnn_bbox", "mrcnn_mask"])
+# train weights (output layers or 'heads')
+model.train(train_set, test_set, learning_rate=config.LEARNING_RATE, epochs=5, layers='heads')
 
 # # define the prediction configuration
 # class PredictionConfig(Config):
@@ -171,27 +205,6 @@ class ModelConfig(Config):
 # 	# show the figure
 # 	pyplot.show()
 
-# load the train dataset
-train_set = HurricaneDataset()
-train_set.load_dataset('train_data', is_train=True)
-train_set.prepare()
-print('Train: %d' % len(train_set.image_ids))
-# load the test dataset
-test_set = HurricaneDataset()
-test_set.load_dataset('train_data', is_train=False)
-test_set.prepare()
-print('Test: %d' % len(test_set.image_ids))
-
-# # prepare config
-# config = ModelConfig()
-# config.display()
-# # define the model
-# model = MaskRCNN(mode='training', model_dir='./', config=config)
-# # load weights (mscoco) and exclude the output layers
-# model.load_weights('mask_rcnn_coco.h5', by_name=True, exclude=["mrcnn_class_logits", "mrcnn_bbox_fc",  "mrcnn_bbox", "mrcnn_mask"])
-# # train weights (output layers or 'heads')
-# model.train(train_set, test_set, learning_rate=config.LEARNING_RATE, epochs=5, layers='heads')
-
 # # create config
 # cfg = PredictionConfig()
 # # define the model
@@ -211,8 +224,8 @@ print('Test: %d' % len(test_set.image_ids))
 # 	# display on the console
 # 	print(info)
 
-# # load an image
-# image_id = 0
+# #load an image
+# image_id = 75
 # image = train_set.load_image(image_id)
 # print(image.shape)
 # # load image mask
@@ -224,18 +237,18 @@ print('Test: %d' % len(test_set.image_ids))
 # pyplot.imshow(mask[:, :, 0], cmap='gray', alpha=0.5)
 # pyplot.show()
 
-from mrcnn.visualize import display_instances
-from mrcnn.utils import extract_bboxes
-image_id = 0
-# load the image
-image = train_set.load_image(image_id)
-# load the masks and the class ids
-mask, class_ids = train_set.load_mask(image_id)
+# from mrcnn.visualize import display_instances
+# from mrcnn.utils import extract_bboxes
+# image_id = 0
+# # load the image
+# image = train_set.load_image(image_id)
+# # load the masks and the class ids
+# mask, class_ids = train_set.load_mask(image_id)
 
-print(image.shape)
-print(mask.shape[-1])
-print(class_ids.shape[0])
-# extract bounding boxes from the masks
-bbox = extract_bboxes(mask)
-# display image with masks and bounding boxes
-display_instances(image, bbox, mask, class_ids, train_set.class_names)
+# # print(image.shape)
+# # print(mask.shape[-1])
+# # print(class_ids.shape[0])
+# # extract bounding boxes from the masks
+# bbox = extract_bboxes(mask)
+# # display image with masks and bounding boxes
+# display_instances(image, bbox, mask, class_ids, train_set.class_names)
