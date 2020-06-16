@@ -155,6 +155,14 @@ model.load_weights('mask_rcnn_coco.h5', by_name=True, exclude=["mrcnn_class_logi
 # train weights (output layers or 'heads')
 model.train(train_set, test_set, learning_rate=config.LEARNING_RATE, epochs=5, layers='heads')
 
+import datetime
+import pickle
+
+x = datetime.datetime.now()
+Pkl_Filename = "keras-model-"+str(x)+".pkl"
+with open(Pkl_Filename, 'wb') as file:  
+    pickle.dump(model, file)
+
 # # define the prediction configuration
 # class PredictionConfig(Config):
 # 	# define the name of the configuration
