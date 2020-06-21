@@ -24,15 +24,16 @@ class HurricaneDataset(Dataset):
 		self.add_class("dataset", 2, "lightly-damaged-small-structure")
 		self.add_class("dataset", 3, "moderately-damaged-small-structure")
 		self.add_class("dataset", 4, "heavily-damaged-small-structure")
-		self.add_class("dataset", 5, "lightly-damaged-medium-building")
-		self.add_class("dataset", 6, "moderately-damaged-medium-building")
-		self.add_class("dataset", 7, "heavily-damaged-medium-building")
-		self.add_class("dataset", 8, "no-damage-large-building")
-		self.add_class("dataset", 9, "lightly-damaged-large-building")
-		self.add_class("dataset", 10, "moderately-damaged-large-building")
-		self.add_class("dataset", 11, "heavily-damaged-large-building")
-		self.add_class("dataset", 12, "residential-building")
-		self.add_class("dataset", 13, "commercial-building")
+		self.add_class("dataset", 5, "no-damage-medium-building")
+		self.add_class("dataset", 6, "lightly-damaged-medium-building")
+		self.add_class("dataset", 7, "moderately-damaged-medium-building")
+		self.add_class("dataset", 8, "heavily-damaged-medium-building")
+		self.add_class("dataset", 9, "no-damage-large-building")
+		self.add_class("dataset", 10, "lightly-damaged-large-building")
+		self.add_class("dataset", 11, "moderately-damaged-large-building")
+		self.add_class("dataset", 12, "heavily-damaged-large-building")
+		self.add_class("dataset", 13, "residential-building")
+		self.add_class("dataset", 14, "commercial-building")
 		# define data locations
 		images_dir = dataset_dir + '/Images/'
 		annotations_dir = dataset_dir + '/Annotations/'
@@ -60,7 +61,7 @@ class HurricaneDataset(Dataset):
 	def extract_boxes(self, filename):
 		# load and parse the file
 		root = ElementTree.parse(filename)
-		boxes = list()
+		boxes, labels = list(), list()
 		# extract each bounding box
 		for box in root.findall('.//bndbox'):
 			xmin = int(float(box.find('xmin').text))
@@ -69,10 +70,13 @@ class HurricaneDataset(Dataset):
 			ymax = int(float(box.find('ymax').text))
 			coors = [xmin, ymin, xmax, ymax]
 			boxes.append(coors)
+		for label in root.findall('object'):
+			labels.append(label.find('name').text)
 		# extract image dimensions
 		width = int(root.find('.//size/width').text)
 		height = int(root.find('.//size/height').text)
-		return boxes, width, height
+		return boxes, width, height, labels
+
 
 	# load the masks for an image
 	#@jit(target ="cuda")
@@ -82,42 +86,18 @@ class HurricaneDataset(Dataset):
 		# define box file location
 		path = info['annotation']
 		# load XML
-		boxes, w, h = self.extract_boxes(path)
+		boxes, w, h, labels = self.extract_boxes(path)
 		# create one array for all masks, each on a different channel
 		masks = zeros([h, w, len(boxes)], dtype='uint8')
 		# create masks
 		class_ids = list()
 		for i in range(len(boxes)):
 			box = boxes[i]
+			label = labels[i]
 			row_s, row_e = box[1], box[3]
 			col_s, col_e = box[0], box[2]
 			masks[row_s:row_e, col_s:col_e, i] = 1
-			if self.class_names.index('no-damage-small-structure'):
-				class_ids.append(self.class_names.index('no-damage-small-structure'))
-			elif self.class_names.index('lightly-damaged-small-structure'):
-				class_ids.append(self.class_names.index('lightly-damaged-small-structure'))
-			elif self.class_names.index('moderately-damaged-small-structure'):
-				class_ids.append(self.class_names.index('moderately-damaged-small-structure'))
-			elif self.class_names.index('heavily-damaged-small-structure'):
-				class_ids.append(self.class_names.index('heavily-damaged-small-structure'))
-			elif self.class_names.index('lightly-damaged-medium-building'):
-				class_ids.append(self.class_names.index('lightly-damaged-medium-building'))
-			elif self.class_names.index('moderately-damaged-medium-building'):
-				class_ids.append(self.class_names.index('moderately-damaged-medium-building'))
-			elif self.class_names.index('heavily-damaged-medium-building'):
-				class_ids.append(self.class_names.index('heavily-damaged-medium-building'))
-			elif self.class_names.index('no-damage-large-building'):
-				class_ids.append(self.class_names.index('no-damage-large-building'))
-			elif self.class_names.index('lightly-damaged-large-building'):
-				class_ids.append(self.class_names.index('lightly-damaged-large-building'))
-			elif self.class_names.index('moderately-damaged-large-building'):
-				class_ids.append(self.class_names.index('moderately-damaged-large-building'))
-			elif self.class_names.index('heavily-damaged-large-building'):
-				class_ids.append(self.class_names.index('heavily-damaged-large-building'))
-			elif self.class_names.index('residential-building'):
-				class_ids.append(self.class_names.index('residential-building'))
-			elif self.class_names.index('commercial-building'):
-				class_ids.append(self.class_names.index('commercial-building'))
+			class_ids.append(self.class_names.index(label))
 		return masks, asarray(class_ids, dtype='int32')
 
 	# load an image reference
@@ -132,7 +112,8 @@ class HurricaneConfig(Config):
 	# number of classes (background + structures)
 	NUM_CLASSES = 1 + 13
 	# number of training steps per epoch
-	STEPS_PER_EPOCH = 79
+	#STEPS_PER_EPOCH = 79
+	STEPS_PER_EPOCH = 343
 
 # load the train dataset
 train_set = HurricaneDataset()
@@ -149,7 +130,7 @@ print('Test: %d' % len(test_set.image_ids))
 config = HurricaneConfig()
 config.display()
 # define the model
-model = MaskRCNN(mode='training', model_dir='./', config=config)
+model = MaskRCNN(mode='training', model_dir='./', config=config) 
 # load weights (mscoco) and exclude the output layers
 model.load_weights('mask_rcnn_coco.h5', by_name=True, exclude=["mrcnn_class_logits", "mrcnn_bbox_fc",  "mrcnn_bbox", "mrcnn_mask"])
 # train weights (output layers or 'heads')
@@ -159,71 +140,102 @@ import datetime
 import pickle
 
 x = datetime.datetime.now()
-Pkl_Filename = "keras-model-"+str(x)+".pkl"
-with open(Pkl_Filename, 'wb') as file:  
-    pickle.dump(model, file)
+Pkl_Filename = "keras-model-"+str(x)+".pickle"
+# if os.path.exists(Pkl_Filename) == False:
+# 	open(Pkl_Filename, 'w').close
+pickle.dump(model, open(Pkl_Filename, 'wb'))
 
-# # define the prediction configuration
-# class PredictionConfig(Config):
-# 	# define the name of the configuration
-# 	NAME = "debris_predict_cfg"
-# 	# number of classes (background + structures)
-# 	NUM_CLASSES = 1 + 13
-# 	# simplify GPU config
-# 	GPU_COUNT = 1
-# 	IMAGES_PER_GPU = 1
+import keras
+import json
+def save_model(trained_model, out_fname="model.json"):
+    jsonObj = trained_model.keras_model.to_json()
+    with open(out_fname, "w") as fh:
+        fh.write(jsonObj)
+    fh.close()
+save_model(model, "keras-model-"+str(x)+".json"))
 
-# # plot a number of photos with ground truth and predictions
-# def plot_actual_vs_predicted(dataset, model, cfg, n_images=5):
-# 	# load image and mask
-# 	for i in range(n_images):
-# 		# load the image and mask
-# 		image = dataset.load_image(i)
-# 		mask, _ = dataset.load_mask(i)
-# 		# convert pixel values (e.g. center)
-# 		scaled_image = mold_image(image, cfg)
-# 		# convert image into one sample
-# 		sample = expand_dims(scaled_image, 0)
-# 		# make prediction
-# 		yhat = model.detect(sample, verbose=0)[0]
-# 		# define subplot
-# 		pyplot.subplot(n_images, 2, i*2+1)
-# 		# plot raw pixel data
-# 		pyplot.imshow(image)
-# 		pyplot.title('Actual')
-# 		# plot masks
-# 		for j in range(mask.shape[2]):
-# 			pyplot.imshow(mask[:, :, j], cmap='gray', alpha=0.3)
-# 		# get the context for drawing boxes
-# 		pyplot.subplot(n_images, 2, i*2+2)
-# 		# plot raw pixel data
-# 		pyplot.imshow(image)
-# 		pyplot.title('Predicted')
-# 		ax = pyplot.gca()
-# 		# plot each box
-# 		for box in yhat['rois']:
-# 			# get coordinates
-# 			y1, x1, y2, x2 = box
-# 			# calculate width and height of the box
-# 			width, height = x2 - x1, y2 - y1
-# 			# create the shape
-# 			rect = Rectangle((x1, y1), width, height, fill=False, color='red')
-# 			# draw the box
-# 			ax.add_patch(rect)
-# 	# show the figure
-# 	pyplot.show()
+# define the prediction configuration
+class PredictionConfig(Config):
+	# define the name of the configuration
+	NAME = "debris_model_cfg"
+	# number of classes (background + structures)
+	NUM_CLASSES = 1 + 14
+	# simplify GPU config
+	GPU_COUNT = 1
+	IMAGES_PER_GPU = 1
 
-# # create config
-# cfg = PredictionConfig()
-# # define the model
-# model = MaskRCNN(mode='inference', model_dir='./', config=cfg)
-# # load model weights
-# model_path = 'mask_rcnn_kangaroo_cfg_0005.h5'
-# model.load_weights(model_path, by_name=True)
-# # plot predictions for train dataset
-# plot_actual_vs_predicted(train_set, model, cfg)
-# # plot predictions for test dataset
-# plot_actual_vs_predicted(test_set, model, cfg)
+#To calculate the mAP for a model on a given dataset
+def evaluate_model(dataset, model, cfg):
+	APs = list()
+	for image_id in dataset.image_ids:
+		image, image_meta, gt_class_id, gt_bbox, gt_mask = load_image_gt(dataset, cfg, image_id, use_mini_mask=False)
+		# convert pixel values (e.g. center)
+		scaled_image = mold_image(image, cfg)
+		# convert image into one sample
+		sample = expand_dims(scaled_image, 0)
+		# make prediction
+		yhat = model.detect(sample, verbose=0)
+		# extract results for first sample
+		r = yhat[0]
+		# calculate statistics, including AP
+		AP, _, _, _ = compute_ap(gt_bbox, gt_class_id, gt_mask, r["rois"], r["class_ids"], r["scores"], r['masks'])
+		# store
+		APs.append(AP)
+	# calculate the mean AP across all images
+	mAP = mean(APs)
+	return mAP
+
+# plot a number of photos with ground truth and predictions
+def plot_actual_vs_predicted(dataset, model, cfg, n_images=5):
+	# load image and mask
+	for i in range(n_images):
+		# load the image and mask
+		image = dataset.load_image(i)
+		mask, _ = dataset.load_mask(i)
+		# convert pixel values (e.g. center)
+		scaled_image = mold_image(image, cfg)
+		# convert image into one sample
+		sample = expand_dims(scaled_image, 0)
+		# make prediction
+		yhat = model.detect(sample, verbose=0)[0]
+		# define subplot
+		pyplot.subplot(n_images, 2, i*2+1)
+		# plot raw pixel data
+		pyplot.imshow(image)
+		pyplot.title('Actual')
+		# plot masks
+		for j in range(mask.shape[2]):
+			pyplot.imshow(mask[:, :, j], cmap='gray', alpha=0.3)
+		# get the context for drawing boxes
+		pyplot.subplot(n_images, 2, i*2+2)
+		# plot raw pixel data
+		pyplot.imshow(image)
+		pyplot.title('Predicted')
+		ax = pyplot.gca()
+		# plot each box
+		for box in yhat['rois']:
+			# get coordinates
+			y1, x1, y2, x2 = box
+			# calculate width and height of the box
+			width, height = x2 - x1, y2 - y1
+			# create the shape
+			rect = Rectangle((x1, y1), width, height, fill=False, color='red')
+			# draw the box
+			ax.add_patch(rect)
+	# show the figure
+	pyplot.show()
+
+# create prediction config object, evalaute model and plot predictions
+cfg = PredictionConfig()
+model = MaskRCNN(mode='inference', model_dir='./', config=cfg)
+model_path = 'mask_rcnn_debris_model_cfg_0005.h5'
+model.load_weights(model_path, by_name=True)
+train_mAP = evaluate_model(train_set, model, cfg)
+print("Train mAP: %.3f" % train_mAP)
+test_mAP = evaluate_model(test_set, model, cfg)
+print("Test mAP: %.3f" % test_mAP)
+plot_actual_vs_predicted(train_set, model, cfg)
+plot_actual_vs_predicted(test_set, model, cfg)
 
 # # enumerate all images in the dataset, just for testing sake
 # for image_id in train_set.image_ids:
