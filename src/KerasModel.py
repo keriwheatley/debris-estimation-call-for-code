@@ -5,6 +5,7 @@ from os import listdir
 from xml.etree import ElementTree
 from numpy import zeros
 from numpy import asarray
+from numpy import mean
 from numpy import expand_dims
 from matplotlib import pyplot
 from matplotlib.patches import Rectangle
@@ -12,9 +13,10 @@ from mrcnn.config import Config
 from mrcnn.model import MaskRCNN
 from mrcnn.model import mold_image
 from mrcnn.utils import Dataset
-from numba import jit, cuda
+from mrcnn.utils import compute_ap
+from mrcnn.model import load_image_gt
+from mrcnn.model import mold_image
 
-# class that defines and loads the hurricane dataset
 class HurricaneDataset(Dataset):
 	# load the dataset definitions
 	#@jit(target ="cuda")
@@ -77,7 +79,6 @@ class HurricaneDataset(Dataset):
 		height = int(root.find('.//size/height').text)
 		return boxes, width, height, labels
 
-
 	# load the masks for an image
 	#@jit(target ="cuda")
 	def load_mask(self, image_id):
@@ -105,56 +106,92 @@ class HurricaneDataset(Dataset):
 		info = self.image_info[image_id]
 		return info['path']
 
-# define a configuration for the model
+"""Load the train dataset"""
+
+train_set = HurricaneDataset()
+train_set.load_dataset('train_data_small', is_train=True)
+train_set.prepare()
+trainlength = len(train_set.image_ids)
+print('Train: %d' % trainlength)
+
+"""Load the test dataset"""
+
+test_set = HurricaneDataset()
+test_set.load_dataset('train_data_small', is_train=False)
+test_set.prepare()
+print('Test: %d' % len(test_set.image_ids))
+
+"""Define a Configuration for the model"""
+
 class HurricaneConfig(Config):
 	# define the name of the configuration
 	NAME = "debris_model_cfg"
 	# number of classes (background + structures)
-	NUM_CLASSES = 1 + 13
+	NUM_CLASSES = 1 + 14
 	# number of training steps per epoch
-	#STEPS_PER_EPOCH = 79
-	STEPS_PER_EPOCH = 343
+	#Should depend on training size
+	STEPS_PER_EPOCH = trainlength
 
-# load the train dataset
-train_set = HurricaneDataset()
-train_set.load_dataset('train_data', is_train=True)
-train_set.prepare()
-print('Train: %d' % len(train_set.image_ids))
-# load the test dataset
-test_set = HurricaneDataset()
-test_set.load_dataset('train_data', is_train=False)
-test_set.prepare()
-print('Test: %d' % len(test_set.image_ids))
+"""Enumerating all images in the dataset.
+Just for testing sake.
+"""
 
-# prepare config
-config = HurricaneConfig()
-config.display()
-# define the model
-model = MaskRCNN(mode='training', model_dir='./', config=config) 
-# load weights (mscoco) and exclude the output layers
+# for image_id in train_set.image_ids:
+# 	info = train_set.image_info[image_id]
+# 	print(info)
+
+"""Load just one image and show a plot of it with the bounding boxes."""
+
+image_id = 5
+image = train_set.load_image(image_id)
+print(image.shape)
+mask, class_ids = train_set.load_mask(image_id)
+print(mask.shape)
+pyplot.imshow(image)
+pyplot.imshow(mask[:, :, 0], cmap='gray', alpha=0.5)
+pyplot.show()
+
+"""Display image with masks and bounding boxes"""
+
+from mrcnn.visualize import display_instances
+from mrcnn.utils import extract_bboxes
+image_id = 5
+image = train_set.load_image(image_id)
+mask, class_ids = train_set.load_mask(image_id)
+bbox = extract_bboxes(mask)
+display_instances(image, bbox, mask, class_ids, train_set.class_names)
+
+"""Prepare config
+Load weights
+Train model
+"""
+
+debrisconfig = HurricaneConfig()
+debrisconfig.display()
+model = MaskRCNN(mode='training', config=debrisconfig, model_dir='./')
 model.load_weights('mask_rcnn_coco.h5', by_name=True, exclude=["mrcnn_class_logits", "mrcnn_bbox_fc",  "mrcnn_bbox", "mrcnn_mask"])
-# train weights (output layers or 'heads')
-model.train(train_set, test_set, learning_rate=config.LEARNING_RATE, epochs=5, layers='heads')
+model.train(train_set, test_set, learning_rate=debrisconfig.LEARNING_RATE, epochs=5, layers='heads')
 
-import datetime
+"""Save summary in pickle and text files, Save model weights."""
+
 import pickle
+import io
+if os.path.exists("model_summary.pkl") == False:
+	open("model_summary.pkl", 'w').close
+stream = io.StringIO()
+model.keras_model.summary(print_fn=lambda x: stream.write(x + '\n'))
+model_summary = stream.getvalue()
+pickle.dump(model_summary, open("model_summary.pkl", 'wb'))
+stream.close()
+model.keras_model.save_weights("model.h5")
+print("Saved model summary and weights to disk")
 
-x = datetime.datetime.now()
-Pkl_Filename = "keras-model-"+str(x)+".pickle"
-# if os.path.exists(Pkl_Filename) == False:
-# 	open(Pkl_Filename, 'w').close
-pickle.dump(model, open(Pkl_Filename, 'wb'))
+with open('model_summary.txt','w') as fh:
+    model.keras_model.summary(print_fn=lambda x: fh.write(x + '\n'))
+fh.close
 
-import keras
-import json
-def save_model(trained_model, out_fname="model.json"):
-    jsonObj = trained_model.keras_model.to_json()
-    with open(out_fname, "w") as fh:
-        fh.write(jsonObj)
-    fh.close()
-save_model(model, "keras-model-"+str(x)+".json"))
+"""Define the prediction configuration"""
 
-# define the prediction configuration
 class PredictionConfig(Config):
 	# define the name of the configuration
 	NAME = "debris_model_cfg"
@@ -164,7 +201,8 @@ class PredictionConfig(Config):
 	GPU_COUNT = 1
 	IMAGES_PER_GPU = 1
 
-#To calculate the mAP for a model on a given dataset
+"""Calculate the mean average precision (mAP) for a model on a given dataset."""
+
 def evaluate_model(dataset, model, cfg):
 	APs = list()
 	for image_id in dataset.image_ids:
@@ -185,9 +223,9 @@ def evaluate_model(dataset, model, cfg):
 	mAP = mean(APs)
 	return mAP
 
-# plot a number of photos with ground truth and predictions
+"""Plot a number of images with ground truth and predictions."""
+
 def plot_actual_vs_predicted(dataset, model, cfg, n_images=5):
-	# load image and mask
 	for i in range(n_images):
 		# load the image and mask
 		image = dataset.load_image(i)
@@ -198,7 +236,6 @@ def plot_actual_vs_predicted(dataset, model, cfg, n_images=5):
 		sample = expand_dims(scaled_image, 0)
 		# make prediction
 		yhat = model.detect(sample, verbose=0)[0]
-		# define subplot
 		pyplot.subplot(n_images, 2, i*2+1)
 		# plot raw pixel data
 		pyplot.imshow(image)
@@ -222,53 +259,24 @@ def plot_actual_vs_predicted(dataset, model, cfg, n_images=5):
 			rect = Rectangle((x1, y1), width, height, fill=False, color='red')
 			# draw the box
 			ax.add_patch(rect)
-	# show the figure
 	pyplot.show()
 
-# create prediction config object, evalaute model and plot predictions
+"""Evaluate mask rcnn model on training and test datasets."""
+
 cfg = PredictionConfig()
-model = MaskRCNN(mode='inference', model_dir='./', config=cfg)
-model_path = 'mask_rcnn_debris_model_cfg_0005.h5'
-model.load_weights(model_path, by_name=True)
+model = MaskRCNN(mode='inference', config=cfg, model_dir='./')
+model.load_weights('model.h5', by_name=True)
 train_mAP = evaluate_model(train_set, model, cfg)
 print("Train mAP: %.3f" % train_mAP)
 test_mAP = evaluate_model(test_set, model, cfg)
 print("Test mAP: %.3f" % test_mAP)
+
+# Save model to JSON
+import json
+model_json = model.keras_model.to_json()
+with open("model.json", "w") as json_file:
+    json_file.write(model_json)
+json_file.close()
+
 plot_actual_vs_predicted(train_set, model, cfg)
 plot_actual_vs_predicted(test_set, model, cfg)
-
-# # enumerate all images in the dataset, just for testing sake
-# for image_id in train_set.image_ids:
-# 	# load image info
-# 	info = train_set.image_info[image_id]
-# 	# display on the console
-# 	print(info)
-
-# #load an image
-# image_id = 75
-# image = train_set.load_image(image_id)
-# print(image.shape)
-# # load image mask
-# mask, class_ids = train_set.load_mask(image_id)
-# print(mask.shape)
-# # plot image
-# pyplot.imshow(image)
-# # plot mask
-# pyplot.imshow(mask[:, :, 0], cmap='gray', alpha=0.5)
-# pyplot.show()
-
-# from mrcnn.visualize import display_instances
-# from mrcnn.utils import extract_bboxes
-# image_id = 0
-# # load the image
-# image = train_set.load_image(image_id)
-# # load the masks and the class ids
-# mask, class_ids = train_set.load_mask(image_id)
-
-# # print(image.shape)
-# # print(mask.shape[-1])
-# # print(class_ids.shape[0])
-# # extract bounding boxes from the masks
-# bbox = extract_bboxes(mask)
-# # display image with masks and bounding boxes
-# display_instances(image, bbox, mask, class_ids, train_set.class_names)
