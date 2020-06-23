@@ -1,5 +1,6 @@
 # detect damages in images with mask rcnn model
 # for more information checkout https://machinelearningmastery.com/how-to-train-an-object-detection-model-with-keras/
+
 import os
 from os import listdir
 from xml.etree import ElementTree
@@ -47,11 +48,11 @@ class HurricaneDataset(Dataset):
 			# extract image id
 			image_id = filename.split('.')[0]
 			image_count += 1
-			# skip all images after 80%, if we are building the train set
-			if is_train and int(image_count) >= int(0.8 * file_count):
+			# skip all images after 90%, if we are building the train set
+			if is_train and int(image_count) >= int(0.9 * file_count):
 				continue
 			# skip all images before 80%, if we are building the test/val set
-			if not is_train and int(image_count) < int(0.8 * file_count):
+			if not is_train and int(image_count) < int(0.9 * file_count):
 				continue
 			img_path = images_dir + filename
 			ann_path = annotations_dir + image_id + '.xml'
@@ -109,7 +110,7 @@ class HurricaneDataset(Dataset):
 """Load the train dataset"""
 
 train_set = HurricaneDataset()
-train_set.load_dataset('train_data_small', is_train=True)
+train_set.load_dataset('/content/drive/My Drive/train_data', is_train=True)
 train_set.prepare()
 trainlength = len(train_set.image_ids)
 print('Train: %d' % trainlength)
@@ -117,7 +118,7 @@ print('Train: %d' % trainlength)
 """Load the test dataset"""
 
 test_set = HurricaneDataset()
-test_set.load_dataset('train_data_small', is_train=False)
+test_set.load_dataset('/content/drive/My Drive/train_data', is_train=False)
 test_set.prepare()
 print('Test: %d' % len(test_set.image_ids))
 
@@ -142,7 +143,7 @@ Just for testing sake.
 
 """Load just one image and show a plot of it with the bounding boxes."""
 
-image_id = 5
+image_id = 1
 image = train_set.load_image(image_id)
 print(image.shape)
 mask, class_ids = train_set.load_mask(image_id)
@@ -155,7 +156,7 @@ pyplot.show()
 
 from mrcnn.visualize import display_instances
 from mrcnn.utils import extract_bboxes
-image_id = 5
+image_id = 1
 image = train_set.load_image(image_id)
 mask, class_ids = train_set.load_mask(image_id)
 bbox = extract_bboxes(mask)
@@ -168,25 +169,26 @@ Train model
 
 debrisconfig = HurricaneConfig()
 debrisconfig.display()
-model = MaskRCNN(mode='training', config=debrisconfig, model_dir='./')
-model.load_weights('mask_rcnn_coco.h5', by_name=True, exclude=["mrcnn_class_logits", "mrcnn_bbox_fc",  "mrcnn_bbox", "mrcnn_mask"])
+model = MaskRCNN(mode='training', config=debrisconfig, model_dir='/content/drive/My Drive')
+model.load_weights('/content/drive/My Drive/mask_rcnn_coco.h5', by_name=True, exclude=["mrcnn_class_logits", "mrcnn_bbox_fc",  "mrcnn_bbox", "mrcnn_mask"])
 model.train(train_set, test_set, learning_rate=debrisconfig.LEARNING_RATE, epochs=5, layers='heads')
 
 """Save summary in pickle and text files, Save model weights."""
 
 import pickle
 import io
-if os.path.exists("model_summary.pkl") == False:
-	open("model_summary.pkl", 'w').close
+pathtofile = '/content/drive/My Drive/Keras Model Cfc/'
+if os.path.exists(pathtofile + "model_summary.pkl") == False:
+	open(pathtofile +"model_summary.pkl", 'w').close
 stream = io.StringIO()
 model.keras_model.summary(print_fn=lambda x: stream.write(x + '\n'))
 model_summary = stream.getvalue()
-pickle.dump(model_summary, open("model_summary.pkl", 'wb'))
+pickle.dump(model_summary, open(pathtofile +"model_summary.pkl", 'wb'))
 stream.close()
-model.keras_model.save_weights("model.h5")
+model.keras_model.save_weights(pathtofile +"model.h5")
 print("Saved model summary and weights to disk")
 
-with open('model_summary.txt','w') as fh:
+with open(pathtofile +'model_summary.txt','w') as fh:
     model.keras_model.summary(print_fn=lambda x: fh.write(x + '\n'))
 fh.close
 
@@ -265,16 +267,15 @@ def plot_actual_vs_predicted(dataset, model, cfg, n_images=5):
 
 cfg = PredictionConfig()
 model = MaskRCNN(mode='inference', config=cfg, model_dir='./')
-model.load_weights('model.h5', by_name=True)
+model.load_weights(pathtofile +'model.h5', by_name=True)
 train_mAP = evaluate_model(train_set, model, cfg)
 print("Train mAP: %.3f" % train_mAP)
 test_mAP = evaluate_model(test_set, model, cfg)
 print("Test mAP: %.3f" % test_mAP)
-
 # Save model to JSON
 import json
 model_json = model.keras_model.to_json()
-with open("model.json", "w") as json_file:
+with open(pathtofile +"model.json", "w") as json_file:
     json_file.write(model_json)
 json_file.close()
 
