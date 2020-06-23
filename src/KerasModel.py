@@ -110,7 +110,7 @@ class HurricaneDataset(Dataset):
 """Load the train dataset"""
 
 train_set = HurricaneDataset()
-train_set.load_dataset('/content/drive/My Drive/train_data', is_train=True)
+train_set.load_dataset('train_data', is_train=True)
 train_set.prepare()
 trainlength = len(train_set.image_ids)
 print('Train: %d' % trainlength)
@@ -118,7 +118,7 @@ print('Train: %d' % trainlength)
 """Load the test dataset"""
 
 test_set = HurricaneDataset()
-test_set.load_dataset('/content/drive/My Drive/train_data', is_train=False)
+test_set.load_dataset('train_data', is_train=False)
 test_set.prepare()
 print('Test: %d' % len(test_set.image_ids))
 
@@ -169,15 +169,15 @@ Train model
 
 debrisconfig = HurricaneConfig()
 debrisconfig.display()
-model = MaskRCNN(mode='training', config=debrisconfig, model_dir='/content/drive/My Drive')
-model.load_weights('/content/drive/My Drive/mask_rcnn_coco.h5', by_name=True, exclude=["mrcnn_class_logits", "mrcnn_bbox_fc",  "mrcnn_bbox", "mrcnn_mask"])
+model = MaskRCNN(mode='training', config=debrisconfig, model_dir='./')
+model.load_weights('mask_rcnn_coco.h5', by_name=True, exclude=["mrcnn_class_logits", "mrcnn_bbox_fc",  "mrcnn_bbox", "mrcnn_mask"])
 model.train(train_set, test_set, learning_rate=debrisconfig.LEARNING_RATE, epochs=5, layers='heads')
 
 """Save summary in pickle and text files, Save model weights."""
 
 import pickle
 import io
-pathtofile = '/content/drive/My Drive/Keras Model Cfc/'
+pathtofile = './'
 if os.path.exists(pathtofile + "model_summary.pkl") == False:
 	open(pathtofile +"model_summary.pkl", 'w').close
 stream = io.StringIO()
