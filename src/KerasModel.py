@@ -48,11 +48,11 @@ class HurricaneDataset(Dataset):
 			# extract image id
 			image_id = filename.split('.')[0]
 			image_count += 1
-			# skip all images after 90%, if we are building the train set
-			if is_train and int(image_count) >= int(0.9 * file_count):
+			# skip all images after 80%, if we are building the train set
+			if is_train and int(image_count) >= int(0.8 * file_count):
 				continue
 			# skip all images before 80%, if we are building the test/val set
-			if not is_train and int(image_count) < int(0.9 * file_count):
+			if not is_train and int(image_count) < int(0.8 * file_count):
 				continue
 			img_path = images_dir + filename
 			ann_path = annotations_dir + image_id + '.xml'
@@ -110,7 +110,7 @@ class HurricaneDataset(Dataset):
 """Load the train dataset"""
 
 train_set = HurricaneDataset()
-train_set.load_dataset('train_data', is_train=True)
+train_set.load_dataset('/content/drive/My Drive/train_data/train_data', is_train=True)
 train_set.prepare()
 trainlength = len(train_set.image_ids)
 print('Train: %d' % trainlength)
@@ -118,7 +118,7 @@ print('Train: %d' % trainlength)
 """Load the test dataset"""
 
 test_set = HurricaneDataset()
-test_set.load_dataset('train_data', is_train=False)
+test_set.load_dataset('/content/drive/My Drive/train_data/train_data', is_train=False)
 test_set.prepare()
 print('Test: %d' % len(test_set.image_ids))
 
@@ -162,22 +162,22 @@ mask, class_ids = train_set.load_mask(image_id)
 bbox = extract_bboxes(mask)
 display_instances(image, bbox, mask, class_ids, train_set.class_names)
 
-"""Prepare config
-Load weights
-Train model
+"""Prepare config,
+Load weights,
+Train model using baseline coco weights
 """
 
 debrisconfig = HurricaneConfig()
 debrisconfig.display()
-model = MaskRCNN(mode='training', config=debrisconfig, model_dir='./')
-model.load_weights('mask_rcnn_coco.h5', by_name=True, exclude=["mrcnn_class_logits", "mrcnn_bbox_fc",  "mrcnn_bbox", "mrcnn_mask"])
-model.train(train_set, test_set, learning_rate=debrisconfig.LEARNING_RATE, epochs=5, layers='heads')
+model = MaskRCNN(mode='training', config=debrisconfig, model_dir='/content/drive/My Drive')
+model.load_weights('/content/drive/My Drive/mask_rcnn_coco.h5', by_name=True, exclude=["mrcnn_class_logits", "mrcnn_bbox_fc",  "mrcnn_bbox", "mrcnn_mask"])
+model.train(train_set, test_set, learning_rate=2*debrisconfig.LEARNING_RATE, epochs=5, layers='heads')
 
 """Save summary in pickle and text files, Save model weights."""
 
 import pickle
 import io
-pathtofile = './'
+pathtofile = "/content/drive/My Drive/Keras Model Cfc/"
 if os.path.exists(pathtofile + "model_summary.pkl") == False:
 	open(pathtofile +"model_summary.pkl", 'w').close
 stream = io.StringIO()
@@ -188,7 +188,7 @@ stream.close()
 model.keras_model.save_weights(pathtofile +"model.h5")
 print("Saved model summary and weights to disk")
 
-with open(pathtofile +'model_summary.txt','w') as fh:
+with open(pathtofile +"model_summary.txt",'w') as fh:
     model.keras_model.summary(print_fn=lambda x: fh.write(x + '\n'))
 fh.close
 
@@ -205,6 +205,7 @@ class PredictionConfig(Config):
 
 """Calculate the mean average precision (mAP) for a model on a given dataset."""
 
+import math
 def evaluate_model(dataset, model, cfg):
 	APs = list()
 	for image_id in dataset.image_ids:
@@ -218,9 +219,12 @@ def evaluate_model(dataset, model, cfg):
 		# extract results for first sample
 		r = yhat[0]
 		# calculate statistics, including AP
-		AP, _, _, _ = compute_ap(gt_bbox, gt_class_id, gt_mask, r["rois"], r["class_ids"], r["scores"], r['masks'])
+		ap, _, _, _ = compute_ap(gt_bbox, gt_class_id, gt_mask, r["rois"], r["class_ids"], r["scores"], r['masks'])
 		# store
-		APs.append(AP)
+		if math.isnan(ap):
+			continue
+		else:
+			APs.append(ap)
 	# calculate the mean AP across all images
 	mAP = mean(APs)
 	return mAP
@@ -266,18 +270,50 @@ def plot_actual_vs_predicted(dataset, model, cfg, n_images=5):
 """Evaluate mask rcnn model on training and test datasets."""
 
 cfg = PredictionConfig()
-model = MaskRCNN(mode='inference', config=cfg, model_dir='./')
-model.load_weights(pathtofile +'model.h5', by_name=True)
+model = MaskRCNN(mode='inference', config=cfg, model_dir=pathtofile)
+model.load_weights(pathtofile + 'model.h5", by_name=True)
 train_mAP = evaluate_model(train_set, model, cfg)
 print("Train mAP: %.3f" % train_mAP)
 test_mAP = evaluate_model(test_set, model, cfg)
 print("Test mAP: %.3f" % test_mAP)
-# Save model to JSON
+
+"""Save Model to JSON object file."""
+
 import json
 model_json = model.keras_model.to_json()
 with open(pathtofile +"model.json", "w") as json_file:
     json_file.write(model_json)
 json_file.close()
+print("Saved model as json.")
+
+"""This is the function to take in a new input image for detection.
+Inputs are the 'image path', 'model directory' and the 'saved model weights (.h5 file)'.
+Output is the image with the detections and it returns the bounding boxes, their class ids and the confidence scores.
+"""
+
+from mrcnn.visualize import display_instances
+from mrcnn.utils import extract_bboxes
+import skimage.io
+def detect_damage(imagepath, model_directory, model_weights):
+	cfg = PredictionConfig()
+	cfg.display()
+	model = MaskRCNN(mode='inference', config=cfg, model_dir=model_directory)
+	model.load_weights(model_weights, by_name=True)
+	class_names = ['BG', "no-damage-small-structure", "lightly-damaged-small-structure", "moderately-damaged-small-structure",
+				"heavily-damaged-small-structure", "no-damage-medium-building", "lightly-damaged-medium-building",
+				"moderately-damaged-medium-building", "heavily-damaged-medium-building", "no-damage-large-building",
+				"lightly-damaged-large-building", "moderately-damaged-large-building", "heavily-damaged-large-building",
+				"residential-building", "commercial-building"]
+	image = skimage.io.imread(imagepath)
+	result = model.detect([image], verbose=1)[0]
+	display_instances(image, result['rois'], result['masks'],
+					result['class_ids'], class_names, result['scores'], title="Predictions")
+	return {'boxes': result['rois'], 'class_ids': result['class_ids'], 'scores': result['scores']}
+
+imgpath = "/content/drive/My Drive/train_data/train_data/Images/P28470045-0-0.jpg"
+modeldir = "/content/drive/My Drive"
+modelweights = "/content/drive/My Drive/Keras Model Cfcmodel2020-06-24 12:36:58.188564.h5"
+detect_damage(imgpath, modeldir, modelweights)
 
 plot_actual_vs_predicted(train_set, model, cfg)
 plot_actual_vs_predicted(test_set, model, cfg)
