@@ -11,7 +11,11 @@ class PredictionConfig(Config):
 	# simplify GPU config
 	GPU_COUNT = 1
 	IMAGES_PER_GPU = 1
-
+    
+"""This is the function to take in a new input image for detection.
+Inputs are the 'image path', 'model directory' and the 'saved model weights (.h5 file)'.
+Output is the image with the detections and it returns the bounding boxes, their class ids and the confidence scores.
+"""
 from mrcnn.visualize import display_instances
 from mrcnn.utils import extract_bboxes
 import skimage.io
