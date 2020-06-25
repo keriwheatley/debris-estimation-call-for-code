@@ -271,7 +271,7 @@ def plot_actual_vs_predicted(dataset, model, cfg, n_images=5):
 
 cfg = PredictionConfig()
 model = MaskRCNN(mode='inference', config=cfg, model_dir=pathtofile)
-model.load_weights(pathtofile + 'model.h5", by_name=True)
+model.load_weights(pathtofile + "model.h5", by_name=True)
 train_mAP = evaluate_model(train_set, model, cfg)
 print("Train mAP: %.3f" % train_mAP)
 test_mAP = evaluate_model(test_set, model, cfg)
