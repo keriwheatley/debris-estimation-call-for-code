@@ -5,3 +5,4 @@ numba==0.50.0
 scikit-image==0.17.1
 tensorflow==1.15.0
 opencv-python
+rasterio==1.1.5
