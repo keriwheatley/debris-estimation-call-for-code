@@ -70,12 +70,19 @@ The following categories were used to label objects in the images:
 
 ## Using CVAT
 
-We used CVAT as an annotation tool to manually annotate images. Image annotations were saved as xml files. See for a sample of the annotated images. 
+We used [CVAT](https://github.com/opencv/cvat) as an annotation tool to manually annotate images. CVAT was set up on an IBM Cloud Virtual Machine using IBM Cloud Object Storage. 
 
-![Test Image 3](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/2-data-processing/cvat-image-1.png)
+Image annotations were saved as xml files. See for a sample of annotated images: [Sample Images](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/2-data-processing/cvat-image-1.png) and [Sample Annotations](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/2-data-processing/cvat-image-1.png)
 
-![Test Image 3](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/2-data-processing/cvat-image-2.png)
+CVAT allows user to create annotation tasks, assign to other users, and track progress.
+![CVAT Image 1](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/2-data-processing/cvat-image-1.png)
 
-![Test Image 3](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/2-data-processing/cvat-image-3.png)
+User specifies class labels and attributes.
+![CVAT Image 2](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/2-data-processing/cvat-image-2.png)
 
-![Test Image 3](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/2-data-processing/cvat-image-4.png)
+Here is an example of the labeling for an image.
+![CVAT Image 3](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/2-data-processing/cvat-image-3.png)
+
+## Cropping Annotated Images
+
+We created a function to crop annotated images into smaller tiles to be used for model training. See this readme for information on running the function: [Sample Annotations](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/2-data-processing/cvat-image-1.png)
