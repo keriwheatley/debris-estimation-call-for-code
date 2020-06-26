@@ -1,0 +1,62 @@
+[
+  {
+    "name": "no-damage-small-structure",
+    "id": 1,
+    "attributes": []
+  },
+  {
+    "name": "lightly-damaged-small-structure",
+    "id": 2,
+    "attributes": []
+  },
+  {
+    "name": "moderately-damaged-small-structure",
+    "id": 3,
+    "attributes": []
+  },
+  {
+    "name": "heavily-damaged-small-structure",
+    "id": 4,
+    "attributes": []
+  },
+  {
+    "name": "no-damage-medium-building",
+    "id": 5,
+    "attributes": []
+  },
+  {
+    "name": "lightly-damaged-medium-building",
+    "id": 6,
+    "attributes": []
+  },
+  {
+    "name": "moderately-damaged-medium-building",
+    "id": 7,
+    "attributes": []
+  },
+  {
+    "name": "heavily-damaged-medium-building",
+    "id": 8,
+    "attributes": []
+  },
+  {
+    "name": "no-damage-large-building",
+    "id": 9,
+    "attributes": []
+  },
+  {
+    "name": "lightly-damaged-large-building",
+    "id": 10,
+    "attributes": []
+  },
+  {
+    "name": "moderately-damaged-large-building",
+    "id": 11,
+    "attributes": []
+  },
+  {
+    "name": "heavily-damaged-large-building",
+    "id": 12,
+    "attributes": []
+  }
+]
