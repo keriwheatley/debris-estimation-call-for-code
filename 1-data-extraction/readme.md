@@ -43,23 +43,14 @@ The original data was stored in IBM Cloud Object Storage to be general accessibl
 
 Here is a step-by-step tutorial for accessing IBM Cloud object storage buckets via API key using pseudokeys.
 
-crn: <945f0b4t-3837-4y92-6jb7-4f5h83sd9826>
+	crn: <945f0b4t-3837-4y92-6jb7-4f5h83sd9826>
+	region: <us-east>
+	access_key_id: <08fbcce4727fd6400913dcc42016afc3>
+	secret_access_key: <e82ecd203fcb303653d3af8d073bd4864a385ec4cd786d22>
 
-region: <us-east>
-
-access_key_id: <08fbcce4727fd6400913dcc42016afc3>
-
-secret_access_key: <e82ecd203fcb303653d3af8d073bd4864a385ec4cd786d22>
-
-
-Type `ibmcloud cos config auth` and choose `2. HMAC`
-
-Type `ibmcloud cos config hmac` and add the keys above
-
-Type `ibmcloud cos config region` and add the region above
-
-Type `ibmcloud cos config crn` and add the CRN above
-
-Type `ibmcloud cos config list` and verify all inputs are correct
-
-Type `ibmcloud cos list-buckets` and see if you have access to the buckets
+1. Type `ibmcloud cos config auth` and choose `2. HMAC`
+2. Type `ibmcloud cos config hmac` and add the keys above
+3. Type `ibmcloud cos config region` and add the region above
+4. Type `ibmcloud cos config crn` and add the CRN above
+5. Type `ibmcloud cos config list` and verify all inputs are correct
+6. Type `ibmcloud cos list-buckets` and see if you have access to the buckets
