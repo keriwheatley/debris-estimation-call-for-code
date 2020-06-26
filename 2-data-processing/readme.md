@@ -10,7 +10,7 @@ In order to generate our model, it was necessary to annotate a representative sa
 
 The following categories were used to label objects in the images:
 
-![Test Image 3](/3DTest.png)
+![Test Image 3](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/2-data-processing/cvat-image-2.png)
 
 
 	1. no-damage-small-structure

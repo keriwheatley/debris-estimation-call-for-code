@@ -41,7 +41,7 @@ The original data was stored in IBM Cloud Object Storage to be general accessibl
 
 # Accessing Data in IBM Cloud Object Storage
 
-Here is a step-by-step tutorial for accessing IBM Cloud object storage buckets via API key using pseudokeys.
+Here is a step-by-step tutorial for accessing IBM Cloud object storage buckets via API key using pseudo-keys.
 
 	crn: <945f0b4t-3837-4y92-6jb7-4f5h83sd9826>
 	region: <us-east>
