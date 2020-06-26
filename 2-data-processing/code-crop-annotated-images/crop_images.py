@@ -5,6 +5,15 @@ Each new image has the tile locations appended to the ends of the original image
 Example:
     Original Image     "C24852789.jpg"
     New Image          "C24852789-0-5.jpg"     *This new image is located in the 1st column and 6th row of the image grid.
+    
+Inputs:
+    source_image_dir: Directory where source images are stored (ex. 'sample_images_dir')
+    source_annotation_dir: Directory where source annotations are stored (ex. 'sample_annotations_dir')
+    dest_dir: Destination directory for output (ex. 'sample_cropped_dir')
+    original_width: The width of images to be cropped (ex. 10328)
+    original_height: The height of images to be cropped (ex. 7760)
+    crop_width: The width of the resulting cropped images (ex. 1000)
+    crop_height: The height of the resulting cropped images (ex. 1000)
 
 Sample Run: python crop_images.py 'sample_images_dir' 'sample_annotations_dir' 'sample_cropped_dir' 10328 7760 1000 1000
 """
