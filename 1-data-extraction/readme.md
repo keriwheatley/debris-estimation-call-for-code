@@ -7,13 +7,13 @@ Data used to train this model comes from the National Oceanic and Atmospheric Ad
 
 	Original source: https://storms.ngs.noaa.gov/storms/dorian/index.html
 
-### 5. Hurricane Michael
+### 2. Hurricane Michael
 	
 	Original source: https://storms.ngs.noaa.gov/storms/michael/index.html
 
-# Data Extraction Steps for Ubuntu Linux Command Line
+# Data Extraction Steps
 
-The original data was stored in IBM Cloud Object Storage to be general accessible to our team members. Here are the commands written to interact with IBM Cloud Object Storage.
+The original data was stored in IBM Cloud Object Storage to be general accessible to our team members. Here are the commands written for Ubuntu Linux command line to interact with IBM Cloud Object Storage.
 
 
 
@@ -44,13 +44,22 @@ The original data was stored in IBM Cloud Object Storage to be general accessibl
 Here is a step-by-step tutorial for accessing IBM Cloud object storage buckets via API key using pseudokeys.
 
 crn: <945f0b4t-3837-4y92-6jb7-4f5h83sd9826>
+
 region: <us-east>
+
 access_key_id: <08fbcce4727fd6400913dcc42016afc3>
+
 secret_access_key: <e82ecd203fcb303653d3af8d073bd4864a385ec4cd786d22>
 
+
 Type `ibmcloud cos config auth` and choose `2. HMAC`
+
 Type `ibmcloud cos config hmac` and add the keys above
+
 Type `ibmcloud cos config region` and add the region above
+
 Type `ibmcloud cos config crn` and add the CRN above
+
 Type `ibmcloud cos config list` and verify all inputs are correct
+
 Type `ibmcloud cos list-buckets` and see if you have access to the buckets
