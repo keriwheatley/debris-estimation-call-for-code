@@ -72,7 +72,7 @@ The following categories were used to label objects in the images:
 
 We used [CVAT](https://github.com/opencv/cvat) as an annotation tool to manually annotate images. CVAT was set up on an IBM Cloud Virtual Machine using IBM Cloud Object Storage. 
 
-Image annotations were saved as xml files. See for a sample of annotated images: [Sample Images](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/2-data-processing/cvat-image-1.png) and [Sample Annotations](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/2-data-processing/cvat-image-1.png)
+Image annotations were saved as xml files. See for a sample of annotated images: [Sample Images](https://github.com/keriwheatley/debris-estimation-call-for-code/tree/master/2-data-processing/code-crop-annotated-images/sample_images_dir) and [Sample Annotations](https://github.com/keriwheatley/debris-estimation-call-for-code/tree/master/2-data-processing/code-crop-annotated-images/sample_annotations_dir)
 
 CVAT allows user to create annotation tasks, assign to other users, and track progress.
 ![CVAT Image 1](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/2-data-processing/cvat-image-1.png)
@@ -85,4 +85,4 @@ Here is an example of the labeling for an image.
 
 ## Cropping Annotated Images
 
-We created a function to crop annotated images into smaller tiles to be used for model training. See this readme for information on running the function: [Sample Annotations](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/2-data-processing/cvat-image-1.png)
+We created a function to crop annotated images into smaller tiles to be used for model training. See this file for information on running the function: [crop_images.py](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/2-data-processing/code-crop-annotated-images/crop_images.py)
