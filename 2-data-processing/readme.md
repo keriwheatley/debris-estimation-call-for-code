@@ -10,9 +10,6 @@ In order to generate our model, it was necessary to annotate a representative sa
 
 The following categories were used to label objects in the images:
 
-![Test Image 3](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/2-data-processing/cvat-image-2.png)
-
-
 	1. no-damage-small-structure
 	2. lightly-damaged-small-structure
 	3. moderately-damaged-small-structure
@@ -75,7 +72,10 @@ The following categories were used to label objects in the images:
 
 We used CVAT as an annotation tool to manually annotate images. Image annotations were saved as xml files. See for a sample of the annotated images. 
 
+![Test Image 3](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/2-data-processing/cvat-image-1.png)
 
-![Test Image 3](/3DTest.png)
+![Test Image 3](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/2-data-processing/cvat-image-2.png)
 
-![Test Image 3](/3DTest.png)
+![Test Image 3](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/2-data-processing/cvat-image-3.png)
+
+![Test Image 3](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/2-data-processing/cvat-image-4.png)
