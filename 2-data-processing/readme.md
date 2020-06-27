@@ -4,7 +4,7 @@
 
 # Creating Object Detection Labels
 
-In order to generate our model, it was necessary to annotate a representative sample of images. We used the open-sourced technology CVAT to annotate full sized images. 
+In order to generate our model, it was necessary to annotate a representative sample of images. We used the open-sourced technology [CVAT](https://github.com/opencv/cvat) to annotate full sized images. 
 
 ## Object Labels
 
