@@ -30,3 +30,6 @@ Our project can take on multiple objectives based on the amount of time we have 
 
 
 ## Exploration
+
+
+## Team
