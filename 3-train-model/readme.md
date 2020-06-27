@@ -1,4 +1,6 @@
-Installation
+# 3-train-model
+
+## Installation
 
 1. Run conda create -n workEnv python=3.7.2
 2. Run source activate workEnv
