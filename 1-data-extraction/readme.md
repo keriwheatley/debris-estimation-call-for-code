@@ -1,5 +1,5 @@
 	
-## 1-data-extraction-readme
+## 1-data-extraction
 
 Data used to train this model comes from the National Oceanic and Atmospheric Administration. We used images taken from disaster areas following two hurricanes: Hurricane Dorian in August 2019 and Hurricane Michael in October 2018. Below are links to the original datasets:
 

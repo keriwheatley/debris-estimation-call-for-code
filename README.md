@@ -8,19 +8,22 @@ After a hurricane causes destruction in a region in the United States, FEMA (Fed
 
 Our project can take on multiple objectives based on the amount of time we have before the project deadline of June 30. For anything we don't build out, we can speak to as our "next steps".
 
-    Phase 1 - Create a computer vision model that identifies damaged structures (based on light, moderate, severe damage) in post-storm aerial imagery. Stitch the imagery together using geocoordinates to produce a "damage report" based on location details (ex. zip code, street).
+        Phase 1 - Create a computer vision model that identifies damaged structures (based on light, moderate, severe damage) in post-storm aerial imagery. Stitch the imagery together using geocoordinates to produce a "damage report" based on location details (ex. zip code, street).
 
-    Phase 2 - Create some way for a FEMA employee to interact with this model. This is up for discussion. One example - we display it as an ArcGIS map with a download button for the "damage report".
+        Phase 2 - Create some way for a FEMA employee to interact with this model. This is up for discussion. One example - we display it as an ArcGIS map with a download button for the "damage report".
 
-    Phase 3 - Merge the "damage report" to information about general population density in these areas.
+        Phase 3 - Merge the "damage report" to information about general population density in these areas.
 
-    Phase 4 - Merge the "damage report" to information about property values in these areas to predict total cost of damage.
+        Phase 4 - Merge the "damage report" to information about property values in these areas to predict total cost of damage.
 
 ## Code Folder Structure
 
 [1-data-extraction](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/1-data-extraction/readme.md)
+
 [2-data-processing](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/2-data-processing/readme.md)
+
 [3-train-model](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/3-train-model/readme.md)
+
 [4-display-results](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/4-display-results/readme.md)
 
 ## Next Steps
