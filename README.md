@@ -46,11 +46,17 @@ The original data was stored in IBM Cloud Object Storage to be general accessibl
 4. Iterate through each file and upload to IBM Cloud Object Storage (contains 2 commands)
 
 		for FILE in 20181011a_jpgs/*
-		    do ibmcloud cos put-object --bucket <cfc-image-storage-hurricane-michael> --key $FILE --body $FILE
+		    do ibmcloud cos put-object 
+			    --bucket <cfc-image-storage-hurricane-michael> 
+			    --key $FILE 
+			    --body $FILE
 	    done;
 	    
     	for FILE in 20181011a_jpgs/jpgs/*
-   	    	do ibmcloud cos put-object --bucket cfc-image-storage-hurricane-michael --key $FILE --body $FILE
+   	    	do ibmcloud cos put-object 
+   	    		--bucket cfc-image-storage-hurricane-michael 
+   	    		--key $FILE 
+   	    		--body $FILE
 	    done;
 
 ### 1.2 Accessing Data in IBM Cloud Object Storage
@@ -156,7 +162,7 @@ We created a function to crop annotated images into smaller tiles to be used for
 
 ## [4. Display Results](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/4-display-results/)
 
-## Exploration
+## Misc Exploration
 
 1. Watson Studio
 
