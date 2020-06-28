@@ -178,13 +178,13 @@ Obtain either the [KerasModel.py](https://github.com/keriwheatley/debris-estimat
 3. There is an option of obtaining just this [detect.py](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/3-train-model/detect.py) for detecting and predicting damages in new images. However, a pre-trained model weights file and a directory path to save the predictions are required as input parameters.  
 
 ### What to Expect when Running the Codes
-1. If the dataset was loaded properly and all bounding boxes and masks correctly obtained, you should see a displayed image like this
-![image with bounding box and mask loaded](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/3-train-model/loaded%20image%20with%20masks.png).
+1. If the dataset was loaded properly and all bounding boxes and masks correctly obtained, you should see a displayed image like the one below, with bounding box and mask loaded as well.
+![loaded image](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/3-train-model/loaded%20image%20with%20masks.png).
 2. When the training is complete, a new model weights 'model.h5', model_sumary.pkl or text files will be created in the current working directory.
-3. The evaluation and validation functions will be called using this new weights file in inference mode, and the mean Average Precision (mAP) scores will be calculated and displayed using both trian and test datasets. Here are 
-![results we obtained for the mAP when we trained the model using different corresponding epochs](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/3-train-model/Training%20evaluation%20and%20validation%20results.jpg)
+3. The evaluation and validation functions will be called using this new weights file in inference mode, and the mean Average Precision (mAP) scores will be calculated and displayed using both trian and test datasets. Here are results we obtained for the mAP when we trained the model using different corresponding epochs:
+![results mAP](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/3-train-model/Training%20evaluation%20and%20validation%20results.jpg)
 4. After the evaluation and validation, the model is saved as a json file in your current working directory.
-5. Finally a function (detect_damages) is called to detect and predict the damages in a new image. An example of this image is:
+5. Finally a function (detect_damages) is called to detect and predict the damages in a new image with confidence scores. An example of this image is:
 ![predicted damages with confidence scores](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/3-train-model/predicted%20damages%20image.png).
 
 ## [4. Display Results](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/4-display-results/)
