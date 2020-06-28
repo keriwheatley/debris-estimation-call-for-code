@@ -177,9 +177,9 @@ Obtain either the [KerasModel.py](https://github.com/keriwheatley/debris-estimat
 2. The training phase takes a very long time to run on a CPU, so we suggest using a GPU intead.
 3. There is an option of obtaining just this [detect.py](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/3-train-model/detect.py) for detecting and predicting damages in new images. However, a pre-trained model weights file and a directory path to save the predictions are required as input parameters.  
 
-### What to Expect when Running the Scripts
+### What to Expect when Running the Codes
 1. If the dataset was loaded properly and all bounding boxes and masks correctly obtained, you should see a displayed image like this
-[image with bounding box and mask loaded]().
+![image with bounding box and mask loaded](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/3-train-model/loaded%20image%20with%20masks.png).
 2. When the training is complete, a new model weights 'model.h5', model_sumary.pkl or text files will be created in the current working directory.
 3. The evaluation and validation functions will be called using this new weights file in inference mode, and the mean Average Precision (mAP) scores will be calculated and displayed using both trian and test datasets. Here are 
 ![results we obtained for the mAP when we trained the model using different corresponding epochs](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/3-train-model/Training%20evaluation%20and%20validation%20results.jpg)
