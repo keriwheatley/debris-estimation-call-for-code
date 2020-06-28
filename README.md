@@ -188,7 +188,7 @@ Obtain either the [KerasModel.py](https://github.com/keriwheatley/debris-estimat
 3. The evaluation and validation functions will be called using this new weights file in inference mode, and the mean Average Precision (mAP) scores will be calculated and displayed using both trian and test datasets. Here are results we obtained for the mAP when we trained the model using different corresponding epochs:
 ![results mAP](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/3-train-model/Training%20evaluation%20and%20validation%20results.jpg)
 
-The last set of results shown in the table above (i.e. 10new) corresponds to re-training done using 10 epochs with the new weights obtained from the 20 epochs training.
+	The last set of results shown in the table above (i.e. 10new) corresponds to re-training done using 10 epochs with the new weights obtained from the 20 epochs training.
 
 4. After the evaluation and validation, the model is saved as a json file in your current working directory.
 5. Finally a function (detect_damages) is called to detect and predict the damages in a new image with confidence scores. An example of this image is:
