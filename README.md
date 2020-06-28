@@ -159,6 +159,18 @@ Image annotations were saved as xml files. See for a sample of annotated images:
 We created a function to crop annotated images into smaller tiles to be used for model training. See this file for information on running the function: [crop_images.py](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/2-data-processing/code-crop-annotated-images/crop_images.py)
 
 ## [3. Train Model](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/3-train-model/)
+Mask Region-based Convolutional Neural Network (Mask R-CNN) model is amongst the state-of-the-art methods for object recognition tasks. The [Matterport Mask R-CNN](https://github.com/matterport/Mask_RCNN) library allows you develop and train Mask R-CNN Keras Models for your own object detection tasks. This library is so far one of the best thrid party implementations of the Mask R-CNN models introduced in the 2018 paper titled "[Mask R-CNN](https://arxiv.org/abs/1703.06870)", which supports both object detection and object segmentation tasks. The Matterport library is open source released under a permissive license (MIT License) and has been widely used on a variety of projects and kaggle competitions. To re-run the training experiments developed in this project, do the following:
+
+### 3.1 Install Required Packages
+Install all required packages using the [requirements](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/3-train-model/requirements.txt) file. If you have any trouble with the mask r-cnn library installation, then see the [installation instructions](https://github.com/matterport/Mask_RCNN#installation) in the library's readme file.
+
+### 3.2 Ensure Required Data Structur and Input Weights
+1. The script created assumes that all annotated images are in a folder called 'train_data' with a sub directory folder in it called 'Images', which has the anotated images and another sub directory called 'Annotations' which has all the .xml files from the annotations obtained in section 2.
+
+2. [Download](https://github.com/matterport/Mask_RCNN/releases/download/v2.0/mask_rcnn_coco.h5) the pre-fit Mask R-CNN model weights into your current working directory. It should have the name 'mask_rcnn_coco.h5'.
+
+### 3.3 Obtain the Codes
+Obtain either the [KerasModel.py](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/3-train-model/KerasModel.py) script or the [KerasModelColab.ipynb](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/3-train-model/KerasModelColab.ipynb) notebook in this repo.
 
 ## [4. Display Results](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/4-display-results/)
 
