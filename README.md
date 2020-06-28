@@ -185,7 +185,7 @@ Obtain either the [KerasModel.py](https://github.com/keriwheatley/debris-estimat
 ![results we obtained for the mAP when we trained the model using different corresponding epochs](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/3-train-model/Training%20evaluation%20and%20validation%20results.jpg)
 4. After the evaluation and validation, the model is saved as a json file in your current working directory.
 5. Finally a function (detect_damages) is called to detect and predict the damages in a new image. An example of this image is:
-![predicted damages]()
+![predicted damages with confidence scores](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/3-train-model/predicted%20damages%20image.png).
 
 ## [4. Display Results](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/4-display-results/)
 
