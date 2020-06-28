@@ -172,6 +172,21 @@ Install all required packages using the [requirements](https://github.com/keriwh
 ### 3.3 Obtain the Codes
 Obtain either the [KerasModel.py](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/3-train-model/KerasModel.py) script or the [KerasModelColab.ipynb](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/3-train-model/KerasModelColab.ipynb) notebook in this repo.
 
+### Things to Note
+1. About 80% of the data was used as the train set (which was about 1306 annotated images), whilst 20% was used as the test set (about 328).
+2. The training phase takes a very long time to run on a CPU, so we suggest using a GPU intead.
+3. There is an option of obtaining just this [detect.py](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/3-train-model/detect.py) for detecting and predicting damages in new images. However, a pre-trained model weights file and a directory path to save the predictions are required as input parameters.  
+
+### What to Expect when Running the Scripts
+1. If the dataset was loaded properly and all bounding boxes and masks correctly obtained, you should see a displayed image like this
+[image with bounding box and mask loaded]().
+2. When the training is complete, a new model weights 'model.h5', model_sumary.pkl or text files will be created in the current working directory.
+3. The evaluation and validation functions will be called using this new weights file in inference mode, and the mean Average Precision (mAP) scores will be calculated and displayed using both trian and test datasets. Here are 
+![results we obtained for the mAP when we trained the model using different corresponding epochs](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/3-train-model/Training%20evaluation%20and%20validation%20results.jpg)
+4. After the evaluation and validation, the model is saved as a json file in your current working directory.
+5. Finally a function (detect_damages) is called to detect and predict the damages in a new image. An example of this image is:
+![predicted damages]()
+
 ## [4. Display Results](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/4-display-results/)
 
 ## Misc Exploration
