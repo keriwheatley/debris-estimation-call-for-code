@@ -215,9 +215,9 @@ Each image had a corresponding metadata file which included longitude and latitu
 
 ## Misc Exploration
 
-1. Watson Studio
+1. [Watson Studio](https://youtu.be/YOU16ePRv10)
 
-2. Roboflow.ai
+2. [Roboflow.ai](https://www.kaggle.com/kewheat/roboflowobjectdetectionmodelexperiment)
 
 ## Team
 1. [Lamogha Chiazor](https://www.linkedin.com/in/lamogha/), IBM, Research Software Engineer
