@@ -216,7 +216,7 @@ Each image had a corresponding metadata file which included longitude and latitu
 
 1. [Watson Studio](https://youtu.be/YOU16ePRv10) - Exploring annotations and object detection modeling.
 
-2. [Roboflow.ai](https://www.kaggle.com/kewheat/roboflowobjectdetectionmodelexperiment) - Exploring annotation tools and object detection with Keras
+2. [Roboflow.ai](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/misc/roboflow/Exploration_of_Roboflow_Yolov3.ipynb) - Exploring roboflow.ai annotation tools and object detection with YOLOv3
 
 ## Team
 1. [Lamogha Chiazor](https://www.linkedin.com/in/lamogha/), IBM, Research Software Engineer
