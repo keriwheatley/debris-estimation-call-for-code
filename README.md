@@ -4,7 +4,7 @@
 
 After a hurricane causes destruction in a region in the United States, federal government organizations, such as the Federal Emergency Management Agency (FEMA), are deployed to provide need-based financial aid to the victims. In order to identify need in a timely matter, these organizations must be able to identify the amount of destruction for each affected area, the population density of the area, and the number of people affected in that population. Once identified, victims of hurricane disasters can be further categorized by extent of financial damage using an ordinal measurement system such as: Not Affected, Lightly Affected, Moderately Affected, and Severely Affected.
 
-## Objective
+## Roadmap
 
 The objective of our project was to use aerial images of areas affected by hurricanes to determine the locations and extent of damage. This project was broken down into the phases below.
 
@@ -185,9 +185,9 @@ Obtain either the [KerasModel.py](https://github.com/keriwheatley/debris-estimat
 
 ### 3.5 What to Expect when Running the Codes
 1. If the dataset was loaded properly and all bounding boxes and masks correctly obtained, you should see a displayed image like the one below, with bounding box and mask loaded as well.
-![loaded image](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/3-train-model/loaded%20image%20with%20masks.png).
+![loaded image](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/3-train-model/loaded%20image%20with%20masks.png)
 
-2. When the training is complete, a new model weights 'model.h5', 'model_sumary.pkl', or text files will be created in the current working directory.
+2. When the training is complete, a new model weights 'model.h5', 'model_sumary.pkl', and text files will be created in the current working directory.
 
 3. The evaluation and validation functions will be called using this new weights file in inference mode, and the mean Average Precision (mAP) scores will be calculated and displayed using both train and test datasets. Here are results we obtained for the mAP when we trained the model using different corresponding epochs:
 ![results mAP](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/3-train-model/Training%20evaluation%20and%20validation%20results.jpg)
@@ -196,7 +196,7 @@ Obtain either the [KerasModel.py](https://github.com/keriwheatley/debris-estimat
 
 4. After the evaluation and validation, the model is saved as a json file in your current working directory.
 5. Finally a function (detect_damages) is called to detect and predict the damages in a new image with confidence scores. An example of this image is:
-![predicted damages with confidence scores](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/3-train-model/predicted%20damages%20image.png).
+![predicted damages with confidence scores](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/3-train-model/predicted%20damages%20image.png)
 
 ## [4. Display Results](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/4-display-results/)
 
