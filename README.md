@@ -29,8 +29,6 @@ Data used to train this model comes from the National Oceanic and Atmospheric Ad
 
 The original data was stored in IBM Cloud Object Storage to be generally accessible to our team members. Here are the commands written for Ubuntu Linux command line to interact with IBM Cloud Object Storage.
 
-
-
 1. Download original zipped folder 
 
 		curl –O https://stormscdn.ngs.noaa.gov/downloads/20181011a_jpgs.tar
@@ -213,11 +211,11 @@ The final trained weights are stored in Kaggle as a public dataset. See the foll
 
 Each image had a corresponding metadata file which included longitude and latitude coordinates for the 4 corners of the image and we convert the image into a TIFF file with this information. We took this information to find the centroid of the image and then used those coordinates to find the zipcode of the image. We recorded the results of the filename, longitude, latitude, and zip code in a csv file.
 
-## Misc Exploration
+## Other Exploration
 
-1. [Watson Studio](https://youtu.be/YOU16ePRv10)
+1. [Watson Studio](https://youtu.be/YOU16ePRv10) - Exploring annotations and object detection modeling.
 
-2. [Roboflow.ai](https://www.kaggle.com/kewheat/roboflowobjectdetectionmodelexperiment)
+2. [Roboflow.ai](https://www.kaggle.com/kewheat/roboflowobjectdetectionmodelexperiment) - Exploring annotation tools and object detection with Keras
 
 ## Team
 1. [Lamogha Chiazor](https://www.linkedin.com/in/lamogha/), IBM, Research Software Engineer
