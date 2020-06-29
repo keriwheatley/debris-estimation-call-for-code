@@ -156,6 +156,13 @@ We used [CVAT](https://github.com/opencv/cvat) as an annotation tool to manually
 
 We created a function to crop annotated images into smaller tiles to be used for model training. See this file for information on running the function: [crop_images.py](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/2-data-processing/code-crop-annotated-images/crop_images.py)
 
+### 2.4 Download Annotated Images
+
+The annotated images are stored in Kaggle as public datasets. See the following links:
+
+	1. [Full-size annotated images](https://www.kaggle.com/kewheat/fullsizedhurricanedisasteraerialimages)
+	2. [Cropped annotated images](https://www.kaggle.com/kewheat/hurricanedisasteraerialimages)
+
 ## [3. Train Model](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/3-train-model/)
 Mask Region-based Convolutional Neural Network (Mask R-CNN) model is amongst the state-of-the-art methods for object recognition tasks. The [Matterport Mask R-CNN](https://github.com/matterport/Mask_RCNN) library allows you develop and train Mask R-CNN Keras Models for your own object detection tasks. This library is so far one of the best third party implementations of the Mask R-CNN models introduced in the 2018 paper titled "[Mask R-CNN](https://arxiv.org/abs/1703.06870)", which supports both object detection and object segmentation tasks. The Matterport library is open source released under a permissive license (MIT License) and has been widely used on a variety of projects and Kaggle competitions. To re-run the training experiments developed in this project, do the following:
 
@@ -197,6 +204,10 @@ Obtain either the [KerasModel.py](https://github.com/keriwheatley/debris-estimat
 4. After the evaluation and validation, the model is saved as a json file in your current working directory.
 5. Finally a function (detect_damages) is called to detect and predict the damages in a new image with confidence scores. An example of this image is:
 ![predicted damages with confidence scores](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/3-train-model/predicted%20damages%20image.png)
+
+### 3.5 Download Final Trained Model
+
+The final trained weights are stored in Kaggle as a public dataset. See the following link: [Final Model Weights Trained with 20 Epochs](https://www.kaggle.com/kewheat/disasterdetectiontrainedweights)
 
 ## [4. Display Results](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/4-display-results/)
 
