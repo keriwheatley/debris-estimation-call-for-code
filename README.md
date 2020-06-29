@@ -158,8 +158,8 @@ We created a function to crop annotated images into smaller tiles to be used for
 
 The annotated images are stored in Kaggle as public datasets. See the following links:
 
-	1. [Full-size annotated images](https://www.kaggle.com/kewheat/fullsizedhurricanedisasteraerialimages)
-	2. [Cropped annotated images](https://www.kaggle.com/kewheat/hurricanedisasteraerialimages)
+1. [Full-size annotated images](https://www.kaggle.com/kewheat/fullsizedhurricanedisasteraerialimages)
+2. [Cropped annotated images](https://www.kaggle.com/kewheat/hurricanedisasteraerialimages)
 
 ## [3. Train Model](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/3-train-model/)
 Mask Region-based Convolutional Neural Network (Mask R-CNN) model is amongst the state-of-the-art methods for object recognition tasks. The [Matterport Mask R-CNN](https://github.com/matterport/Mask_RCNN) library allows you develop and train Mask R-CNN Keras Models for your own object detection tasks. This library is so far one of the best third party implementations of the Mask R-CNN models introduced in the 2018 paper titled "[Mask R-CNN](https://arxiv.org/abs/1703.06870)", which supports both object detection and object segmentation tasks. The Matterport library is open source released under a permissive license (MIT License) and has been widely used on a variety of projects and Kaggle competitions. To re-run the training experiments developed in this project, do the following:
