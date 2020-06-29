@@ -159,6 +159,7 @@ We created a function to crop annotated images into smaller tiles to be used for
 The annotated images are stored in Kaggle as public datasets. See the following links:
 
 1. [Full-size annotated images](https://www.kaggle.com/kewheat/fullsizedhurricanedisasteraerialimages)
+
 2. [Cropped annotated images](https://www.kaggle.com/kewheat/hurricanedisasteraerialimages)
 
 ## [3. Train Model](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/3-train-model/)
