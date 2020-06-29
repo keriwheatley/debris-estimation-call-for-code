@@ -16,6 +16,10 @@ The objective of our project was to use aerial images of areas affected by hurri
 
 - **Phase 4** - Merge the "damage report" to information about property values in these areas to predict total cost of damage. [*NEXT STEPS*]
 
+## System Architecture
+
+![System Architecture Diagram](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/system-architecture.png)
+
 ## Code
 
 ## [1. Data Extraction](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/1-data-extraction/)
