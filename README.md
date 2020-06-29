@@ -200,6 +200,8 @@ Obtain either the [KerasModel.py](https://github.com/keriwheatley/debris-estimat
 
 ## [4. Display Results](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/4-display-results/)
 
+Each image had a corresponding metadata file which included longitude and latitude coordinates for the 4 corners of the image and we convert the image into a TIFF file with this information. We took this information to find the centroid of the image and then used those coordinates to find the zipcode of the image. We recorded the results of the filename, longitude, latitude, and zip code in a csv file.
+
 ## Misc Exploration
 
 1. Watson Studio
