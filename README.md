@@ -226,7 +226,13 @@ For each of the hurricane GeoTIFFs in COS:
 ## [5. Display Results](https://github.com/keriwheatley/debris-estimation-call-for-code/tree/master/5-display-results/)
 The results are then displayed using QGIS or as CSV report
 
+
 ![Damage report CSV](misc/images/damage-CSV-report.png)
+
+The CSV results are then loaded into and ArcGIS map to share it to public
+go to : https://arcg.is/uO8SG to access the map
+
+
 
 
 ![Damage report heatmap](misc/images/damage-heatmap.png)
