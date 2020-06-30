@@ -224,18 +224,25 @@ For each of the hurricane GeoTIFFs in COS:
 5. Generate CSV report which has coordinates, zipcodes and number of damaged structures for each coordinate pair and the damage details
 
 ## [5. Display Results](https://github.com/keriwheatley/debris-estimation-call-for-code/tree/master/5-display-results/)
-The results are then displayed using QGIS or as CSV report
+The results are then displayed using ArcGIS or as CSV report
 
-
+### CSV Report
 ![Damage report CSV](misc/images/damage-CSV-report.png)
 
+### Interactive Web map on ArcGIS
 The CSV results are then loaded into and ArcGIS map to share it to public
-go to : https://arcg.is/uO8SG to access the map
+go to : https://arcg.is/O4GL40 to access the interactive map 
 
+Here are a couple of screenshots from the web map
 
+![webmap screenshot-1](misc/images/screenshot-arcgis-map.png)
+Map showing the damage detection model results. The size of the cirlces represent the count of damged structures in that location.
+The table below the map shows more details about the type of damage.
 
+![webmap screenshot-2](misc/images/screenshot-arcgis-map-2.png)
+Clicking on any of the circles opens up a window which shows further details of the damaged structures
 
-![Damage report heatmap](misc/images/damage-heatmap.png)
+<!-- ![Damage report heatmap](misc/images/damage-heatmap.png) -->
 
 ## Other Exploration
 
