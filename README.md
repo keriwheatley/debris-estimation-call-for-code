@@ -214,7 +214,22 @@ The final trained weights are stored in Kaggle as a public dataset. See the foll
 
 ## [4. Run Model](https://github.com/keriwheatley/debris-estimation-call-for-code/tree/master/4-run-model/)
 
-Each image had a corresponding metadata file which included longitude and latitude coordinates for the 4 corners of the image and we convert the image into a TIFF file with this information. We took this information to find the centroid of the image and then used those coordinates to find the zipcode of the image. We recorded the results of the filename, longitude, latitude, and zip code in a csv file.
+The model-run pipelines are written as jupyter notebooks and are executed as parallel jobs in Watson studio.
+
+For each of the hurricane GeoTIFFs in COS:  
+1. Extract the image centroid (lat,lon) and map the centroid to zipcodes
+2. Convert TIFF to JPEG
+3. Run damage detection model using the weights file saved in COS
+4. Save annotated image JPEG and results JSON to COS
+5. Generate CSV report which has coordinates, zipcodes and number of damaged structures for each coordinate pair and the damage details
+
+## [5. Display Results](https://github.com/keriwheatley/debris-estimation-call-for-code/tree/master/5-display-results/)
+The results are then displayed using QGIS or as CSV report
+
+![Damage report CSV](misc/images/damage-CSV-report.png)
+
+
+![Damage report heatmap](misc/images/damage-heatmap.png)
 
 ## Other Exploration
 
