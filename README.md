@@ -5,6 +5,11 @@
 - [Roadmap](#roadmap)
 - [System Architecture](#system_architecture)
 - [Code](#code)
+	- 1. Data Extraction (#1_data_extraction)
+	- 2. Data Processing (#2_data_processing)
+	- 3. Train Model (#3_train_model)
+	- 4. Run Model (#4_run_model)
+	- 5. Display Results (#5_display_results)
 - [Other Exploration](#other_exploration)
 - [Team](#team)
 
@@ -34,6 +39,7 @@ The objective of our project was to use aerial images of areas affected by hurri
 <a name="code"></a>
 ## Code
 
+<a name="1_data_extraction"></a>
 ## [1. Data Extraction](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/1-data-extraction/)
 
 Data used to train this model comes from the National Oceanic and Atmospheric Administration. We used images taken via single engine aircrafts of disaster areas following two hurricanes: Hurricane Dorian in August 2019 and Hurricane Michael in October 2018. Below are links to the original datasets:
@@ -89,6 +95,7 @@ Here is a step-by-step tutorial for accessing IBM Cloud object storage buckets v
 5. Type `ibmcloud cos config list` and verify all inputs are correct
 6. Type `ibmcloud cos list-buckets` to verify you have access to the buckets
 
+<a name="2_data_processing"></a>
 ## [2. Data Processing](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/2-data-processing/)
 
 ### 2.1 Creating Object Detection Labels
@@ -178,6 +185,7 @@ The annotated images are stored in Kaggle as public datasets. See the following 
 
 2. [Cropped annotated images](https://www.kaggle.com/kewheat/hurricanedisasteraerialimages)
 
+<a name="3_train_model"></a>
 ## [3. Train Model](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/3-train-model/)
 Mask Region-based Convolutional Neural Network (Mask R-CNN) model is amongst the state-of-the-art methods for object recognition tasks. The [Matterport Mask R-CNN](https://github.com/matterport/Mask_RCNN) library allows you develop and train Mask R-CNN Keras Models for your own object detection tasks. This library is so far one of the best third party implementations of the Mask R-CNN models introduced in the 2018 paper titled "[Mask R-CNN](https://arxiv.org/abs/1703.06870)", which supports both object detection and object segmentation tasks. The Matterport library is open source released under a permissive license (MIT License) and has been widely used on a variety of projects and Kaggle competitions. To re-run the training experiments developed in this project, do the following:
 
@@ -224,6 +232,7 @@ Obtain either the [KerasModel.py](https://github.com/keriwheatley/debris-estimat
 
 The final trained weights are stored in Kaggle as a public dataset. See the following link: [Final Model Weights Trained with 20 Epochs](https://www.kaggle.com/kewheat/disasterdetectiontrainedweights)
 
+<a name="4_run_model"></a>
 ## [4. Run Model](https://github.com/keriwheatley/debris-estimation-call-for-code/tree/master/4-run-model/)
 
 The model-run pipelines are written as jupyter notebooks and are executed as parallel jobs in Watson studio.
@@ -235,6 +244,7 @@ For each of the hurricane GeoTIFFs in COS:
 4. Save annotated image JPEG and results JSON to COS
 5. Generate CSV report which has coordinates, zipcodes and number of damaged structures for each coordinate pair and the damage details
 
+<a name="5_display_results"></a>
 ## [5. Display Results](https://github.com/keriwheatley/debris-estimation-call-for-code/tree/master/5-display-results/)
 The results are then displayed using ArcGIS or as CSV report
 
