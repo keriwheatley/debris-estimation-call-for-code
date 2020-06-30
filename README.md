@@ -1,7 +1,7 @@
 # debris-estimation-call-for-code
 
 # Demo Video
-![Quick Overview of Project](https://youtu.be/8yukXqCqTB0)
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/8yukXqCqTB0/0.jpg)](https://youtu.be/8yukXqCqTB0)
 
 # Table of contents
 - [Problem Statement](#problem_statement)
