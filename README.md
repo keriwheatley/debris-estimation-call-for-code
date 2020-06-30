@@ -1,12 +1,10 @@
 # debris-estimation-call-for-code
 
-# Demo Video
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/8yukXqCqTB0/0.jpg)](https://youtu.be/8yukXqCqTB0)
-
 # Table of contents
 - [Problem Statement](#problem_statement)
 - [Roadmap](#roadmap)
 - [System Architecture](#system_architecture)
+- [Demo Video](#demo_video)
 - [Code](#code)
 	- [1. Data Extraction](#1_data_extraction)
 	- [2. Data Processing](#2_data_processing)
@@ -38,6 +36,10 @@ The objective of our project was to use aerial images of areas affected by hurri
 ## System Architecture
 
 ![System Architecture Diagram](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/system-architecture.png)
+
+<a name="demo_video"></a>
+# Demo Video
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/8yukXqCqTB0/0.jpg)](https://youtu.be/8yukXqCqTB0)
 
 <a name="code"></a>
 ## Code
