@@ -110,7 +110,7 @@ class HurricaneDataset(Dataset):
 """Load the train dataset"""
 
 train_set = HurricaneDataset()
-train_set.load_dataset('/content/drive/My Drive/train_data/train_data', is_train=True)
+train_set.load_dataset('train_data', is_train=True)
 train_set.prepare()
 trainlength = len(train_set.image_ids)
 print('Train: %d' % trainlength)
@@ -118,7 +118,7 @@ print('Train: %d' % trainlength)
 """Load the test dataset"""
 
 test_set = HurricaneDataset()
-test_set.load_dataset('/content/drive/My Drive/train_data/train_data', is_train=False)
+test_set.load_dataset('train_data', is_train=False)
 test_set.prepare()
 print('Test: %d' % len(test_set.image_ids))
 
@@ -169,15 +169,15 @@ Train model using baseline coco weights
 
 debrisconfig = HurricaneConfig()
 debrisconfig.display()
-model = MaskRCNN(mode='training', config=debrisconfig, model_dir='/content/drive/My Drive')
-model.load_weights('/content/drive/My Drive/mask_rcnn_coco.h5', by_name=True, exclude=["mrcnn_class_logits", "mrcnn_bbox_fc",  "mrcnn_bbox", "mrcnn_mask"])
-model.train(train_set, test_set, learning_rate=2*debrisconfig.LEARNING_RATE, epochs=5, layers='heads')
+model = MaskRCNN(mode='training', config=debrisconfig, model_dir='./')
+model.load_weights('mask_rcnn_coco.h5', by_name=True, exclude=["mrcnn_class_logits", "mrcnn_bbox_fc",  "mrcnn_bbox", "mrcnn_mask"])
+model.train(train_set, test_set, learning_rate=debrisconfig.LEARNING_RATE, epochs=5, layers='heads')
 
 """Save summary in pickle and text files, Save model weights."""
 
 import pickle
 import io
-pathtofile = "/content/drive/My Drive/Keras Model Cfc/"
+pathtofile = "./"
 if os.path.exists(pathtofile + "model_summary.pkl") == False:
 	open(pathtofile +"model_summary.pkl", 'w').close
 stream = io.StringIO()
@@ -310,9 +310,9 @@ def detect_damage(imagepath, model_directory, model_weights):
 					result['class_ids'], class_names, result['scores'], title="Predictions")
 	return {'boxes': result['rois'], 'class_ids': result['class_ids'], 'scores': result['scores']}
 
-imgpath = "/content/drive/My Drive/train_data/train_data/Images/P28470045-0-0.jpg"
-modeldir = "/content/drive/My Drive"
-modelweights = "/content/drive/My Drive/Keras Model Cfcmodel2020-06-24 12:36:58.188564.h5"
+imgpath = "train_data/Images/P28470045-0-0.jpg"
+modeldir = "./"
+modelweights = "./model.h5"
 detect_damage(imgpath, modeldir, modelweights)
 
 plot_actual_vs_predicted(train_set, model, cfg)
