@@ -258,7 +258,7 @@ The results are then displayed using ArcGIS or as CSV report
 
 ### 5.2 Interactive Web map on ArcGIS
 The CSV results are then loaded into and ArcGIS map to share it to public
-go to : https://arcg.is/O4GL40 to access the interactive map 
+go to: https://arcg.is/O4GL40 to access the interactive map 
 
 Here are a couple of screenshots from the web map
 
