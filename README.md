@@ -1,9 +1,19 @@
 # debris-estimation-call-for-code
 
+# Table of contents
+- [Problem Statement](#problem_statement)
+- [Roadmap](#roadmap)
+- [System Architecture](#system_architecture)
+- [Code](#code)
+- [Other Exploration](#other_exploration)
+- [Team](#team)
+
+<a name="problem_statement"></a>
 ## Problem Statement
 
 After a hurricane causes destruction in a region in the United States, federal government organizations, such as the Federal Emergency Management Agency (FEMA), are deployed to provide need-based financial aid to the victims. In order to identify need in a timely matter, these organizations must be able to identify the amount of destruction for each affected area, the population density of the area, and the number of people affected in that population. Once identified, victims of hurricane disasters can be further categorized by extent of financial damage using an ordinal measurement system such as: Not Affected, Lightly Affected, Moderately Affected, and Severely Affected.
 
+<a name="roadmap"></a>
 ## Roadmap
 
 The objective of our project was to use aerial images of areas affected by hurricanes to determine the locations and extent of damage. This project was broken down into the phases below.
@@ -16,10 +26,12 @@ The objective of our project was to use aerial images of areas affected by hurri
 
 - **Phase 4** - Merge the "damage report" to information about property values in these areas to predict total cost of damage. [*NEXT STEPS*]
 
+<a name="system_architecture"></a>
 ## System Architecture
 
 ![System Architecture Diagram](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/system-architecture.png)
 
+<a name="code"></a>
 ## Code
 
 ## [1. Data Extraction](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/1-data-extraction/)
@@ -226,10 +238,10 @@ For each of the hurricane GeoTIFFs in COS:
 ## [5. Display Results](https://github.com/keriwheatley/debris-estimation-call-for-code/tree/master/5-display-results/)
 The results are then displayed using ArcGIS or as CSV report
 
-### CSV Report
+### 5.1 CSV Report
 ![Damage report CSV](misc/images/damage-CSV-report.png)
 
-### Interactive Web map on ArcGIS
+### 5.2 Interactive Web map on ArcGIS
 The CSV results are then loaded into and ArcGIS map to share it to public
 go to : https://arcg.is/O4GL40 to access the interactive map 
 
@@ -244,12 +256,14 @@ Clicking on any of the circles opens up a window which shows further details of 
 
 <!-- ![Damage report heatmap](misc/images/damage-heatmap.png) -->
 
+<a name="other_exploration"></a>
 ## Other Exploration
 
 1. [Watson Studio](https://youtu.be/YOU16ePRv10) - Exploring annotations and object detection modeling.
 
 2. [Roboflow.ai](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/misc/roboflow/Exploration_of_Roboflow_Yolov3.ipynb) - Exploring roboflow.ai annotation tools and object detection with YOLOv3
 
+<a name="team"></a>
 ## Team
 1. [Lamogha Chiazor](https://www.linkedin.com/in/lamogha/), IBM, Research Software Engineer
 
