@@ -38,7 +38,7 @@ The objective of our project was to use aerial images of areas affected by hurri
 ![System Architecture Diagram](https://github.com/keriwheatley/debris-estimation-call-for-code/blob/master/system-architecture.png)
 
 <a name="demo_video"></a>
-# Demo Video
+## Demo Video
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/8yukXqCqTB0/0.jpg)](https://youtu.be/8yukXqCqTB0)
 
 <a name="code"></a>
